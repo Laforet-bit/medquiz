@@ -6,173 +6,348 @@
 <title>MedQuiz Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0d0d1a;--surface:#13132a;--card:#1a1a3e;--card2:#1e1e45;--accent:#e94560;--green:#26c281;--red:#e74c3c;--blue:#3498db;--text:#ffffff;--subtext:#8892b0;--border:rgba(255,255,255,0.07);--shadow:0 8px 40px rgba(0,0,0,0.5);}
+:root {
+  --bg: #0d0d1a;
+  --surface: #13132a;
+  --card: #1a1a3e;
+  --card2: #1e1e45;
+  --accent: #e94560;
+  --accent2: #9b59b6;
+  --green: #26c281;
+  --red: #e74c3c;
+  --yellow: #f39c12;
+  --blue: #3498db;
+  --text: #ffffff;
+  --subtext: #8892b0;
+  --border: rgba(255,255,255,0.07);
+  --shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-.app{display:flex;flex-direction:column;min-height:100vh;align-items:center;}
-.topbar{width:100%;background:linear-gradient(135deg,#e94560,#9b59b6);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 24px rgba(233,69,96,0.3);position:sticky;top:0;z-index:100;}
-.topbar h1{font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:900;letter-spacing:1px;}
-.topbar-right{display:flex;gap:10px;align-items:center;}
-.icon-btn{background:rgba(255,255,255,0.15);border:none;color:white;border-radius:10px;padding:8px 14px;cursor:pointer;font-size:0.85rem;font-weight:700;transition:background 0.15s;backdrop-filter:blur(8px);}
-.icon-btn:hover{background:rgba(255,255,255,0.25);}
-.wrap{width:100%;max-width:760px;padding:24px 16px 60px;}
-.screen{display:none;}.screen.active{display:block;}
-.home-title{font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:900;margin-bottom:6px;background:linear-gradient(135deg,#e94560,#9b59b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.home-sub{color:var(--subtext);font-size:0.9rem;margin-bottom:28px;}
-.kahoot-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;}
-@media(max-width:500px){.kahoot-grid{grid-template-columns:1fr;}}
-.kahoot-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px 18px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
-.kahoot-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#e94560,#9b59b6);}
-.kahoot-card:hover{transform:translateY(-3px);border-color:rgba(233,69,96,0.4);box-shadow:0 8px 32px rgba(233,69,96,0.2);}
-.kahoot-card .kname{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:6px;}
-.kahoot-card .kcount{color:var(--subtext);font-size:0.82rem;}
-.kahoot-card .kplay-btn{display:inline-block;margin-top:14px;background:linear-gradient(135deg,#e94560,#9b59b6);color:white;border:none;border-radius:10px;padding:8px 20px;font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:800;cursor:pointer;letter-spacing:0.5px;}
-.kahoot-card .kedit-btn{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.08);border:none;color:var(--subtext);border-radius:8px;padding:5px 10px;font-size:0.75rem;cursor:pointer;transition:all 0.15s;}
-.kahoot-card .kedit-btn:hover{background:rgba(255,255,255,0.15);color:white;}
-.add-kahoot-card{background:transparent;border:2px dashed rgba(255,255,255,0.15);border-radius:18px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;color:var(--subtext);}
-.add-kahoot-card:hover{border-color:rgba(233,69,96,0.5);color:var(--accent);}
-.add-kahoot-card .plus{font-size:2rem;margin-bottom:8px;}
-.add-kahoot-card .lbl{font-size:0.85rem;font-weight:600;}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);}
-.modal-overlay.open{display:flex;}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:100%;max-width:480px;box-shadow:var(--shadow);animation:modalIn 0.25s ease;}
-@keyframes modalIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
-.modal h3{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:16px;}
-.modal-btns{display:flex;gap:10px;margin-top:20px;}
-.field{margin-bottom:14px;}
-.field label{display:block;font-size:0.8rem;font-weight:600;color:var(--subtext);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
-.field input,.field textarea{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;color:white;padding:11px 14px;font-family:'Inter',sans-serif;font-size:0.9rem;transition:border-color 0.15s;}
-.field input:focus,.field textarea:focus{outline:none;border-color:rgba(233,69,96,0.6);}
-.field textarea{resize:vertical;min-height:110px;}
-.btn-primary{background:linear-gradient(135deg,#e94560,#9b59b6);color:white;border:none;border-radius:12px;padding:13px 28px;font-family:'Montserrat',sans-serif;font-size:0.95rem;font-weight:800;cursor:pointer;transition:all 0.15s;box-shadow:0 4px 16px rgba(233,69,96,0.35);letter-spacing:0.3px;}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(233,69,96,0.5);}
-.btn-ghost{background:var(--card);color:var(--subtext);border:1px solid var(--border);border-radius:12px;padding:13px 22px;font-family:'Montserrat',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.15s;}
-.btn-ghost:hover{background:var(--card2);color:white;}
-.btn-danger{background:rgba(231,76,60,0.15);color:var(--red);border:1px solid rgba(231,76,60,0.3);border-radius:12px;padding:13px 22px;font-family:'Montserrat',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.15s;}
-.btn-danger:hover{background:rgba(231,76,60,0.25);}
-.edit-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
-.back-btn{background:var(--card);border:none;color:white;border-radius:10px;padding:9px 16px;cursor:pointer;font-size:0.85rem;font-weight:700;transition:background 0.15s;}
-.back-btn:hover{background:var(--card2);}
-.edit-header h2{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.3rem;}
-.edit-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;}
-.edit-section h4{font-family:'Montserrat',sans-serif;font-weight:800;font-size:0.95rem;margin-bottom:14px;color:var(--subtext);text-transform:uppercase;letter-spacing:1px;}
-.q-list{max-height:320px;overflow-y:auto;}
-.q-item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
-.q-item:last-child{border-bottom:none;}
-.q-item-text{font-size:0.85rem;color:var(--subtext);flex:1;line-height:1.4;}
-.q-item-num{font-size:0.75rem;font-weight:700;color:var(--accent);min-width:24px;}
-.q-del-btn{background:rgba(231,76,60,0.1);border:none;color:var(--red);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:0.75rem;flex-shrink:0;}
-.q-del-btn:hover{background:rgba(231,76,60,0.25);}
-.info-box{background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.3);border-radius:10px;padding:12px 14px;font-size:0.82rem;color:var(--blue);margin-bottom:12px;line-height:1.5;}
-.game-back{margin-bottom:16px;}
-.stats-row{display:flex;gap:10px;margin-bottom:16px;}
-.stat-chip{flex:1;background:var(--surface);border-radius:12px;padding:11px 8px;text-align:center;border:1px solid var(--border);}
-.stat-chip .val{font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:900;}
-.stat-chip .lbl{font-size:0.67rem;color:var(--subtext);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;}
-.stat-chip.green .val{color:var(--green);}.stat-chip.red .val{color:var(--red);}.stat-chip.blue .val{color:var(--blue);}
-.progress-wrap{margin-bottom:18px;}
-.progress-info{display:flex;justify-content:space-between;font-size:0.82rem;color:var(--subtext);margin-bottom:7px;}
-.progress-bar{height:5px;background:rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,#e94560,#9b59b6);border-radius:10px;transition:width 0.5s ease;}
-.question-card{background:var(--surface);border-radius:18px;padding:24px 22px 18px;margin-bottom:18px;border:1px solid var(--border);box-shadow:var(--shadow);}
-.q-badge{display:inline-block;background:linear-gradient(135deg,#e94560,#9b59b6);border-radius:7px;padding:4px 11px;font-size:0.72rem;font-weight:700;letter-spacing:1px;margin-bottom:12px;text-transform:uppercase;}
-.retry-badge{display:inline-block;background:rgba(243,156,18,0.15);border:1px solid #f39c12;color:#f39c12;border-radius:7px;padding:4px 11px;font-size:0.7rem;font-weight:700;margin-left:7px;animation:pulse 1.5s infinite;}
+
+/* ---- LAYOUT ---- */
+.app { display:flex; flex-direction:column; min-height:100vh; align-items:center; }
+.topbar {
+  width:100%; background:linear-gradient(135deg,#e94560,#9b59b6);
+  padding:14px 24px; display:flex; align-items:center; justify-content:space-between;
+  box-shadow:0 4px 24px rgba(233,69,96,0.3); position:sticky; top:0; z-index:100;
+}
+.topbar h1 { font-family:'Montserrat',sans-serif; font-size:1.3rem; font-weight:900; letter-spacing:1px; }
+.topbar-right { display:flex; gap:10px; align-items:center; }
+.icon-btn {
+  background:rgba(255,255,255,0.15); border:none; color:white; border-radius:10px;
+  padding:8px 14px; cursor:pointer; font-size:0.85rem; font-weight:700;
+  transition:background 0.15s; backdrop-filter:blur(8px);
+}
+.icon-btn:hover { background:rgba(255,255,255,0.25); }
+
+.wrap { width:100%; max-width:760px; padding:24px 16px 60px; }
+
+/* ---- SCREENS ---- */
+.screen { display:none; }
+.screen.active { display:block; }
+
+/* ---- HOME ---- */
+.home-title {
+  font-family:'Montserrat',sans-serif; font-size:1.6rem; font-weight:900;
+  margin-bottom:6px;
+  background:linear-gradient(135deg,#e94560,#9b59b6);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.home-sub { color:var(--subtext); font-size:0.9rem; margin-bottom:28px; }
+
+.kahoot-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px; }
+@media(max-width:500px){ .kahoot-grid{grid-template-columns:1fr;} }
+
+.kahoot-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:18px;
+  padding:20px 18px; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden;
+}
+.kahoot-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,#e94560,#9b59b6);
+}
+.kahoot-card:hover { transform:translateY(-3px); border-color:rgba(233,69,96,0.4); box-shadow:0 8px 32px rgba(233,69,96,0.2); }
+.kahoot-card .kname { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.05rem; margin-bottom:6px; }
+.kahoot-card .kcount { color:var(--subtext); font-size:0.82rem; }
+.kahoot-card .kplay-btn {
+  display:inline-block; margin-top:14px; background:linear-gradient(135deg,#e94560,#9b59b6);
+  color:white; border:none; border-radius:10px; padding:8px 20px;
+  font-family:'Montserrat',sans-serif; font-size:0.82rem; font-weight:800;
+  cursor:pointer; letter-spacing:0.5px;
+}
+.kahoot-card .kedit-btn {
+  position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.08);
+  border:none; color:var(--subtext); border-radius:8px; padding:5px 10px;
+  font-size:0.75rem; cursor:pointer; transition:all 0.15s;
+}
+.kahoot-card .kedit-btn:hover { background:rgba(255,255,255,0.15); color:white; }
+
+.add-kahoot-card {
+  background:transparent; border:2px dashed rgba(255,255,255,0.15); border-radius:18px;
+  padding:20px; text-align:center; cursor:pointer; transition:all 0.2s; color:var(--subtext);
+}
+.add-kahoot-card:hover { border-color:rgba(233,69,96,0.5); color:var(--accent); }
+.add-kahoot-card .plus { font-size:2rem; margin-bottom:8px; }
+.add-kahoot-card .lbl { font-size:0.85rem; font-weight:600; }
+
+/* ---- MODALS ---- */
+.modal-overlay {
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75);
+  z-index:200; align-items:center; justify-content:center; padding:16px;
+  backdrop-filter:blur(4px);
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:var(--surface); border:1px solid var(--border); border-radius:20px;
+  padding:28px 24px; width:100%; max-width:480px; box-shadow:var(--shadow);
+  animation:modalIn 0.25s ease;
+}
+@keyframes modalIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+.modal h3 { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.1rem; margin-bottom:16px; }
+.modal-btns { display:flex; gap:10px; margin-top:20px; }
+
+/* ---- FORMS ---- */
+.field { margin-bottom:14px; }
+.field label { display:block; font-size:0.8rem; font-weight:600; color:var(--subtext); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
+.field input, .field textarea {
+  width:100%; background:var(--card); border:1px solid var(--border); border-radius:10px;
+  color:white; padding:11px 14px; font-family:'Inter',sans-serif; font-size:0.9rem;
+  transition:border-color 0.15s;
+}
+.field input:focus, .field textarea:focus { outline:none; border-color:rgba(233,69,96,0.6); }
+.field textarea { resize:vertical; min-height:110px; }
+
+/* ---- BUTTONS ---- */
+.btn-primary {
+  background:linear-gradient(135deg,#e94560,#9b59b6); color:white; border:none;
+  border-radius:12px; padding:13px 28px; font-family:'Montserrat',sans-serif;
+  font-size:0.95rem; font-weight:800; cursor:pointer; transition:all 0.15s;
+  box-shadow:0 4px 16px rgba(233,69,96,0.35); letter-spacing:0.3px;
+}
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(233,69,96,0.5); }
+.btn-ghost {
+  background:var(--card); color:var(--subtext); border:1px solid var(--border);
+  border-radius:12px; padding:13px 22px; font-family:'Montserrat',sans-serif;
+  font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.15s;
+}
+.btn-ghost:hover { background:var(--card2); color:white; }
+.btn-danger {
+  background:rgba(231,76,60,0.15); color:var(--red); border:1px solid rgba(231,76,60,0.3);
+  border-radius:12px; padding:13px 22px; font-family:'Montserrat',sans-serif;
+  font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.15s;
+}
+.btn-danger:hover { background:rgba(231,76,60,0.25); }
+
+/* ---- EDIT SCREEN ---- */
+.edit-header { display:flex; align-items:center; gap:12px; margin-bottom:24px; }
+.back-btn {
+  background:var(--card); border:none; color:white; border-radius:10px;
+  padding:9px 16px; cursor:pointer; font-size:0.85rem; font-weight:700; transition:background 0.15s;
+}
+.back-btn:hover { background:var(--card2); }
+.edit-header h2 { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.3rem; }
+
+.edit-section {
+  background:var(--surface); border:1px solid var(--border); border-radius:16px;
+  padding:20px; margin-bottom:16px;
+}
+.edit-section h4 { font-family:'Montserrat',sans-serif; font-weight:800; font-size:0.95rem; margin-bottom:14px; color:var(--subtext); text-transform:uppercase; letter-spacing:1px; }
+
+.q-list { max-height:320px; overflow-y:auto; }
+.q-item {
+  display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+  padding:10px 0; border-bottom:1px solid var(--border);
+}
+.q-item:last-child { border-bottom:none; }
+.q-item-text { font-size:0.85rem; color:var(--subtext); flex:1; line-height:1.4; }
+.q-item-num { font-size:0.75rem; font-weight:700; color:var(--accent); min-width:24px; }
+.q-del-btn {
+  background:rgba(231,76,60,0.1); border:none; color:var(--red); border-radius:6px;
+  padding:4px 8px; cursor:pointer; font-size:0.75rem; flex-shrink:0;
+}
+.q-del-btn:hover { background:rgba(231,76,60,0.25); }
+
+.info-box {
+  background:rgba(52,152,219,0.1); border:1px solid rgba(52,152,219,0.3); border-radius:10px;
+  padding:12px 14px; font-size:0.82rem; color:var(--blue); margin-bottom:12px; line-height:1.5;
+}
+
+/* ---- GAME SCREEN ---- */
+.game-back { margin-bottom:16px; }
+.stats-row { display:flex; gap:10px; margin-bottom:16px; }
+.stat-chip { flex:1; background:var(--surface); border-radius:12px; padding:11px 8px; text-align:center; border:1px solid var(--border); }
+.stat-chip .val { font-family:'Montserrat',sans-serif; font-size:1.3rem; font-weight:900; }
+.stat-chip .lbl { font-size:0.67rem; color:var(--subtext); font-weight:600; letter-spacing:0.5px; text-transform:uppercase; }
+.stat-chip.green .val { color:var(--green); }
+.stat-chip.red .val { color:var(--red); }
+.stat-chip.blue .val { color:var(--blue); }
+
+.progress-wrap { margin-bottom:18px; }
+.progress-info { display:flex; justify-content:space-between; font-size:0.82rem; color:var(--subtext); margin-bottom:7px; }
+.progress-bar { height:5px; background:rgba(255,255,255,0.08); border-radius:10px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,#e94560,#9b59b6); border-radius:10px; transition:width 0.5s ease; }
+
+.question-card {
+  background:var(--surface); border-radius:18px; padding:24px 22px 18px;
+  margin-bottom:18px; border:1px solid var(--border); box-shadow:var(--shadow);
+}
+.q-badge { display:inline-block; background:linear-gradient(135deg,#e94560,#9b59b6); border-radius:7px; padding:4px 11px; font-size:0.72rem; font-weight:700; letter-spacing:1px; margin-bottom:12px; text-transform:uppercase; }
+.retry-badge { display:inline-block; background:rgba(243,156,18,0.15); border:1px solid #f39c12; color:#f39c12; border-radius:7px; padding:4px 11px; font-size:0.7rem; font-weight:700; margin-left:7px; animation:pulse 1.5s infinite; }
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
-.question-text{font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:800;line-height:1.5;margin-bottom:20px;}
-.answers-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
-.answer-btn{background:var(--card);border:2px solid transparent;border-radius:13px;padding:14px 18px;color:white;font-size:0.92rem;font-weight:500;cursor:pointer;transition:all 0.17s;text-align:left;width:100%;line-height:1.4;}
-.answer-btn:hover:not(:disabled){border-color:rgba(233,69,96,0.45);transform:translateX(3px);background:var(--card2);}
-.answer-btn.correct{border-color:var(--green)!important;background:rgba(38,194,129,0.18)!important;font-weight:700;animation:pop 0.3s ease;}
-.answer-btn.wrong{border-color:var(--red)!important;background:rgba(231,76,60,0.18)!important;animation:shake 0.3s ease;}
-.answer-btn:disabled{cursor:default;}
-@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+.question-text { font-family:'Montserrat',sans-serif; font-size:1.15rem; font-weight:800; line-height:1.4; }
+
+.answers-grid { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-bottom:18px; }
+@media(max-width:480px){ .answers-grid{grid-template-columns:1fr;} }
+
+.answer-btn {
+  background:var(--card); border:2px solid transparent; border-radius:13px;
+  padding:16px 14px; color:white; font-size:0.9rem; font-weight:600; cursor:pointer;
+  transition:all 0.17s; text-align:left; display:flex; align-items:center; gap:11px;
+  min-height:66px; line-height:1.3;
+}
+.answer-btn:hover:not(:disabled) { border-color:rgba(233,69,96,0.45); transform:translateY(-1px); background:var(--card2); }
+.answer-btn.correct { border-color:var(--green)!important; background:rgba(38,194,129,0.18)!important; animation:pop 0.3s ease; }
+.answer-btn.wrong { border-color:var(--red)!important; background:rgba(231,76,60,0.18)!important; animation:shake 0.3s ease; }
+.answer-btn:disabled { cursor:default; }
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.feedback-panel{border-radius:13px;padding:14px 18px;margin-bottom:14px;display:none;animation:slideUp 0.28s ease;}
+
+.ans-icon { width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:0.95rem; flex-shrink:0; }
+.ic-a{background:#e94560;} .ic-b{background:#3498db;} .ic-c{background:#f39c12;} .ic-d{background:#26c281;}
+
+.feedback-panel { border-radius:13px; padding:14px 18px; margin-bottom:14px; display:none; animation:slideUp 0.28s ease; }
 @keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.feedback-panel.show{display:block;}
-.feedback-panel.correct{background:rgba(38,194,129,0.13);border:1px solid rgba(38,194,129,0.35);}
-.feedback-panel.wrong{background:rgba(231,76,60,0.13);border:1px solid rgba(231,76,60,0.35);}
-.fb-icon{font-size:1.3rem;margin-bottom:4px;}
-.fb-title{font-family:'Montserrat',sans-serif;font-weight:800;font-size:0.95rem;}
-.feedback-panel.correct .fb-title{color:var(--green);}.feedback-panel.wrong .fb-title{color:var(--red);}
-.fb-ans{color:var(--subtext);font-size:0.85rem;margin-top:5px;}.fb-ans strong{color:var(--text);}
-.btn-continue{background:linear-gradient(135deg,#26c281,#1a9e68);color:white;border:none;border-radius:13px;padding:15px 44px;font-family:'Montserrat',sans-serif;font-size:0.95rem;font-weight:800;cursor:pointer;transition:all 0.15s;box-shadow:0 4px 16px rgba(38,194,129,0.35);display:none;}
-.btn-continue.show{display:inline-block;}
-.btn-continue:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(38,194,129,0.5);}
-.continue-wrap{text-align:center;}
-.final-card{background:var(--surface);border-radius:20px;padding:40px 28px;text-align:center;border:1px solid var(--border);box-shadow:var(--shadow);margin-top:12px;}
-.final-card .trophy{font-size:3.5rem;margin-bottom:14px;}
-.final-card h2{font-family:'Montserrat',sans-serif;font-size:1.8rem;font-weight:900;margin-bottom:6px;}
-.final-card .sub{color:var(--subtext);margin-bottom:22px;font-size:0.9rem;}
-.final-score{font-family:'Montserrat',sans-serif;font-size:3.5rem;font-weight:900;background:linear-gradient(135deg,#e94560,#9b59b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
-.final-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
-.fstat{background:var(--card);border-radius:13px;padding:14px;}
-.fstat .n{font-size:1.7rem;font-weight:900;font-family:'Montserrat',sans-serif;}
-.fstat .t{font-size:0.75rem;color:var(--subtext);font-weight:600;}
-.fstat.g .n{color:var(--green);}.fstat.r .n{color:var(--red);}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:12px 22px;font-size:0.88rem;font-weight:600;z-index:999;transition:transform 0.3s ease;white-space:nowrap;box-shadow:var(--shadow);}
-.toast.show{transform:translateX(-50%) translateY(0);}
+.feedback-panel.show { display:block; }
+.feedback-panel.correct { background:rgba(38,194,129,0.13); border:1px solid rgba(38,194,129,0.35); }
+.feedback-panel.wrong { background:rgba(231,76,60,0.13); border:1px solid rgba(231,76,60,0.35); }
+.fb-icon { font-size:1.3rem; margin-bottom:4px; }
+.fb-title { font-family:'Montserrat',sans-serif; font-weight:800; font-size:0.95rem; }
+.feedback-panel.correct .fb-title { color:var(--green); }
+.feedback-panel.wrong .fb-title { color:var(--red); }
+.fb-ans { color:var(--subtext); font-size:0.85rem; margin-top:5px; }
+.fb-ans strong { color:var(--text); }
+
+.btn-continue { background:linear-gradient(135deg,#26c281,#1a9e68); color:white; border:none; border-radius:13px; padding:15px 44px; font-family:'Montserrat',sans-serif; font-size:0.95rem; font-weight:800; cursor:pointer; transition:all 0.15s; box-shadow:0 4px 16px rgba(38,194,129,0.35); display:none; }
+.btn-continue.show { display:inline-block; }
+.btn-continue:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(38,194,129,0.5); }
+.continue-wrap { text-align:center; }
+
+/* ---- FINAL ---- */
+.final-card { background:var(--surface); border-radius:20px; padding:40px 28px; text-align:center; border:1px solid var(--border); box-shadow:var(--shadow); margin-top:12px; }
+.final-card .trophy { font-size:3.5rem; margin-bottom:14px; }
+.final-card h2 { font-family:'Montserrat',sans-serif; font-size:1.8rem; font-weight:900; margin-bottom:6px; }
+.final-card .sub { color:var(--subtext); margin-bottom:22px; font-size:0.9rem; }
+.final-score { font-family:'Montserrat',sans-serif; font-size:3.5rem; font-weight:900; background:linear-gradient(135deg,#e94560,#9b59b6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:6px; }
+.final-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:20px 0; }
+.fstat { background:var(--card); border-radius:13px; padding:14px; }
+.fstat .n { font-size:1.7rem; font-weight:900; font-family:'Montserrat',sans-serif; }
+.fstat .t { font-size:0.75rem; color:var(--subtext); font-weight:600; }
+.fstat.g .n { color:var(--green); } .fstat.r .n { color:var(--red); }
+
+/* ---- TOAST ---- */
+.toast {
+  position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(80px);
+  background:var(--card2); border:1px solid var(--border); border-radius:12px;
+  padding:12px 22px; font-size:0.88rem; font-weight:600; z-index:999;
+  transition:transform 0.3s ease; white-space:nowrap; box-shadow:var(--shadow);
+}
+.toast.show { transform:translateX(-50%) translateY(0); }
+
+/* ---- LOCK badge ---- */
+.lock-badge { font-size:0.75rem; color:var(--subtext); display:flex; align-items:center; gap:5px; }
 </style>
 </head>
 <body>
 <div class="app">
+
 <div class="topbar">
   <h1>🧠 MedQuiz Pro</h1>
-  <div class="topbar-right"><button class="icon-btn" onclick="toggleAdmin()">⚙️ Editar</button></div>
+  <div class="topbar-right">
+    <button class="icon-btn" id="adminBtn" onclick="toggleAdmin()">⚙️ Editar</button>
+  </div>
 </div>
+
 <div class="wrap">
+
+  <!-- ======== HOME ======== -->
   <div class="screen active" id="screenHome">
     <div class="home-title">Mis Kahoots</div>
     <div class="home-sub">Selecciona un kahoot para estudiar</div>
     <div class="kahoot-grid" id="kahootGrid"></div>
   </div>
+
+  <!-- ======== EDIT ======== -->
   <div class="screen" id="screenEdit">
     <div class="edit-header">
       <button class="back-btn" onclick="goHome()">← Volver</button>
       <h2 id="editTitle">Editando kahoot</h2>
     </div>
+
     <div class="edit-section">
       <h4>✏️ Renombrar</h4>
-      <div class="field"><label>Nombre del kahoot</label><input type="text" id="editNameInput" placeholder="Nombre del kahoot"></div>
+      <div class="field">
+        <label>Nombre del kahoot</label>
+        <input type="text" id="editNameInput" placeholder="Ej: NEURO 2">
+      </div>
       <button class="btn-primary" onclick="saveKahootName()">Guardar nombre</button>
     </div>
+
     <div class="edit-section">
       <h4>➕ Añadir preguntas</h4>
-      <div class="info-box">📋 Pega aquí el JSON con las preguntas nuevas.</div>
-      <div class="field"><label>Texto JSON</label><textarea id="addQInput" placeholder='[{"q":"Pregunta","answers":["a) ...","b) ...","c) ...","d) ..."],"correct":0}]'></textarea></div>
+      <div class="info-box">
+        📋 Mándame un vídeo de Kahoot y yo te daré el texto para pegar aquí directamente.
+      </div>
+      <div class="field">
+        <label>Pega aquí el texto que te dé el asistente</label>
+        <textarea id="addQInput" placeholder='[{"q":"Pregunta","answers":["A","B","C"],"correct":0}, ...]'></textarea>
+      </div>
       <button class="btn-primary" onclick="addQuestionsToKahoot()">Añadir preguntas</button>
     </div>
+
     <div class="edit-section">
       <h4>📋 Preguntas (<span id="editQCount">0</span>)</h4>
       <div class="q-list" id="editQList"></div>
     </div>
-    <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);">
+
+    <div style="margin-top:20px; padding-top:20px; border-top:1px solid var(--border);">
       <button class="btn-danger" onclick="deleteKahoot()">🗑️ Eliminar este kahoot</button>
     </div>
   </div>
+
+  <!-- ======== GAME ======== -->
   <div class="screen" id="screenGame">
-    <div class="game-back"><button class="back-btn" onclick="goHome()">← Salir</button></div>
+    <div class="game-back">
+      <button class="back-btn" onclick="goHome()">← Salir</button>
+    </div>
     <div class="stats-row">
       <div class="stat-chip green"><div class="val" id="statCorrect">0</div><div class="lbl">✅ Correctas</div></div>
       <div class="stat-chip red"><div class="val" id="statWrong">0</div><div class="lbl">❌ Errores</div></div>
       <div class="stat-chip blue"><div class="val" id="statRemaining">0</div><div class="lbl">📋 Quedan</div></div>
     </div>
     <div class="progress-wrap">
-      <div class="progress-info"><span id="progressText">Pregunta 1</span><span id="progressPct">0%</span></div>
+      <div class="progress-info">
+        <span id="progressText">Pregunta 1</span>
+        <span id="progressPct">0%</span>
+      </div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     </div>
     <div class="question-card">
       <div><span class="q-badge">Quiz</span><span class="retry-badge" id="retryBadge" style="display:none">🔁 Repetición</span></div>
       <div class="question-text" id="questionText">...</div>
     </div>
-    <div class="answers-list" id="answersGrid"></div>
+    <div class="answers-grid" id="answersGrid"></div>
     <div class="feedback-panel" id="feedbackPanel">
       <div class="fb-icon" id="fbIcon"></div>
       <div class="fb-title" id="fbTitle"></div>
       <div class="fb-ans" id="fbAns"></div>
     </div>
-    <div class="continue-wrap"><button class="btn-continue" id="btnContinue" onclick="nextQuestion()">CONTINUAR →</button></div>
+    <div class="continue-wrap">
+      <button class="btn-continue" id="btnContinue" onclick="nextQuestion()">CONTINUAR →</button>
+    </div>
   </div>
+
+  <!-- ======== FINAL ======== -->
   <div class="screen" id="screenFinal">
     <div class="final-card">
       <div class="trophy" id="finalTrophy">🏆</div>
@@ -187,124 +362,634 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <button class="btn-ghost" onclick="goHome()" style="width:100%">🏠 Volver al inicio</button>
     </div>
   </div>
+
+</div><!-- /wrap -->
+</div><!-- /app -->
+
+<!-- ======== MODALS ======== -->
+
+    <div id="adminErr" style="color:var(--red);font-size:0.82rem;margin-top:-8px;margin-bottom:8px;display:none">Contraseña incorrecta</div>
+    <div class="modal-btns">
+      <button class="btn-primary" onclick="checkAdmin()">Entrar</button>
+      <button class="btn-ghost" onclick="closeModal('modalAdmin')">Cancelar</button>
+    </div>
+  </div>
 </div>
-</div>
+
+<!-- Nuevo kahoot -->
 <div class="modal-overlay" id="modalNewKahoot">
   <div class="modal">
     <h3>➕ Nuevo kahoot</h3>
-    <div class="field"><label>Nombre</label><input type="text" id="newKahootName" placeholder="Nombre del kahoot"></div>
+    <div class="field">
+      <label>Nombre</label>
+      <input type="text" id="newKahootName" placeholder="Ej: NEURO 2">
+    </div>
     <div class="modal-btns">
       <button class="btn-primary" onclick="createKahoot()">Crear</button>
       <button class="btn-ghost" onclick="closeModal('modalNewKahoot')">Cancelar</button>
     </div>
   </div>
 </div>
+
+<!-- Admin login modal -->
 <div class="modal-overlay" id="modalAdminLogin">
   <div class="modal">
     <h3>🔐 Modo edición</h3>
-    <div class="field"><label>Contraseña</label><input type="password" id="adminPassInput" placeholder="Introduce tu contraseña" onkeydown="if(event.key==='Enter')checkAdminPass()"></div>
-    <div id="adminPassErr" style="color:var(--red);font-size:0.82rem;margin-top:-8px;margin-bottom:10px;display:none">❌ Contraseña incorrecta</div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="adminPassInput" placeholder="Introduce tu contraseña"
+        onkeydown="if(event.key==='Enter')checkAdminPass()">
+    </div>
+    <div id="adminPassErr" style="color:var(--red);font-size:0.82rem;margin-top:-8px;margin-bottom:10px;display:none">
+      ❌ Contraseña incorrecta
+    </div>
     <div class="modal-btns">
       <button class="btn-primary" onclick="checkAdminPass()">Entrar</button>
       <button class="btn-ghost" onclick="closeModal('modalAdminLogin')">Cancelar</button>
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
-<script>
-const BASE_KAHOOTS=[{"id": 1, "name": "Examen 24-25", "questions": [{"q": "1. ¿En qué artículo del Decreto 137/2002, referente al Plan de Apoyo a la Familia, se establece que se facilitará la accesibilidad de los pacientes a los servicios de rehabilitación y fisioterapia en su propio entorno?", "answers": ["A. Artículo 21", "B. Artículo 23", "C. Artículo 25", "D. Artículo 27"], "correct": 2}, {"q": "2. ¿Cuál de las siguientes patologías no estaría incluida en el proceso de fisioterapia en Atención Primaria?", "answers": ["A. Patología osteoarticular aguda degenerativa sin déficits en el balance articular y muscular", "B. Patología osteoarticular crónica degenerativa con déficits en el balance articular y muscular", "C. Patología osteoarticular aguda degenerativa con déficits en el balance articular y muscular", "D. Patología osteoarticular crónica degenerativa sin déficits en el balance articular y muscular"], "correct": 3}, {"q": "3. Según la Guía de Procedimientos de Rehabilitación y Fisioterapia, ¿cuál no sería una función de la fisioterapia en Atención Primaria?", "answers": ["A. Diagnosticar la patología del paciente", "B. Valorar y establecer el alta del paciente", "C. Informar de forma técnica al paciente acerca de su recuperación y de su discapacidad", "D. Ninguna es función del fisioterapeuta"], "correct": 3}, {"q": "4. El desarrollo social y económico, basado en el nuevo orden económico internacional, es de importancia básica para el logro cabal del libre acceso a la salud y de la reducción de la brecha existente entre el nivel de salud de los países en vías de desarrollo y de los países desarrollados. La promoción y la protección de la salud es esencial para un desarrollo económico y social sustentable, contribuyendo además a mejorar la calidad de vida, la reducción de la violencia y la obtención de la paz mundial. Pertenece al resumen de la Declaración de Alma Ata. ¿Qué punto es?", "answers": ["A. Punto I", "B. Punto II", "C. Punto III", "D. Punto IV"], "correct": 2}, {"q": "5. Para la atención correcta de los principales problemas de salud, la Atención Primaria debe prestar servicios de promoción, prevención, recuperación y rehabilitación. Este sería el punto:", "answers": ["A. Punto VII de la Conferencia de Alma Ata", "B. Punto VIII de la Conferencia de Alma Ata", "C. Punto IX de la Conferencia de Alma Ata", "D. Punto X de la Conferencia de Alma Ata"], "correct": 0}, {"q": "6. La Ley de Complementariedad de las C.C.A.A., según la Ley de Sanidad, está incluida en el artículo:", "answers": ["A. Artículo 2.2", "B. Artículo 2.3", "C. Artículo 2.4", "D. Artículo 1.2"], "correct": 0}, {"q": "7. El término \"epidemia\" se empezó a utilizar durante qué siglos:", "answers": ["A. Siglos I-III", "B. Siglos III-IV", "C. Siglos V-VI", "D. Siglos VII-VIII"], "correct": 2}, {"q": "8. ¿Cuál de las siguientes afirmaciones es correcta?", "answers": ["A. En 1654, Girolamo Fracastoro publicó en Venecia el libro De Contagione et Contagiosis Morbis et Eorum Curatione", "B. En 1546, Girolamo Fracastoro publicó en Florencia el libro De Contagione et Contagiosis Morbis et Eorum Curatione", "C. En 1564, Girolamo Fracastoro publicó en Venecia el libro De Contagione et Contagiosis Morbis et Eorum Curatione", "D. En 1546, Girolamo Fracastoro publicó en Venecia el libro De Contagione et Contagiosis Morbis et Eorum Curatione"], "correct": 3}, {"q": "9. ¿Cuál no es una aplicación de la epidemiología?", "answers": ["A. Metodología de la investigación", "B. Valorar pruebas diagnósticas", "C. Ayudar a la enseñanza", "D. Intervención sanitaria"], "correct": 3}, {"q": "10. El Programa de Salud Materno-Infantil fue aprobado por:", "answers": ["A. Pleno del Consejo Interterritorial del Sistema Nacional de Salud", "B. Pleno del Patronato Interterritorial del Sistema Nacional de Salud", "C. Pleno del Parlamento Interterritorial del Sistema Nacional de Salud", "D. Pleno del Parlamento del Servicio Andaluz de Salud"], "correct": 0}, {"q": "11. ¿Qué día se reunió la Comisión de Seguimiento de Programas de Salud?", "answers": ["A. 24 de mayo de 1990", "B. 2 de mayo de 1990", "C. 4 de mayo de 1990", "D. 14 de mayo de 1990"], "correct": 0}, {"q": "12. La Ley de Salud Escolar y la Ley de Prevención, Asistencia y Reinserción Social en materia de drogodependencias tienen por objetivo:", "answers": ["A. Educación para la salud de la población escolar", "B. Elevar la calidad de los adultos mayores", "C. Promover la participación activa de los adultos", "D. Vigilancia del desarrollo del niño hasta los 14 años"], "correct": 0}, {"q": "13. ¿Cuál no sería una función del fisioterapeuta en la Atención Primaria?", "answers": ["A. Identificar los factores de riesgo del puesto de trabajo", "B. Enseñar formas de movilización y traslado de cargas", "C. Practicar técnicas de relajación durante pausas en el trabajo", "D. Búsqueda y colocación en el puesto de trabajo"], "correct": 3}, {"q": "14. Dentro de las prestaciones del Sistema Nacional de Salud, ¿cuál de los enunciados es verdadero?", "answers": ["A. Se exige declaración previa del estado de salud para causar derecho a las prestaciones de la misma", "B. Existe período de carencia", "C. Segura hospitalización hasta el alta", "D. Asegura asistencia en todos los países"], "correct": 2}, {"q": "15. El conjunto de los elementos que, influyendo sobre el estado de salud, emplean la técnica médica de manera preponderante o intensiva, se conoce como:", "answers": ["A. Modelo sanitario", "B. Sistema sanitario", "C. Sistema de salud", "D. Modelo de salud"], "correct": 1}, {"q": "16. Con respecto a la crisis de los sistemas sanitarios, ¿qué enunciado es falso?", "answers": ["A. Está causada por el envejecimiento de la población", "B. Está causada por el fuerte cociente de la mano de obra especializada", "C. Causada por la incorporación de nuevas tecnologías", "D. Causada por el aumento de enfermedades crónicas y degenerativas"], "correct": 1}, {"q": "17. ¿Cuál del siguiente grupo de enfermedades no es de declaración obligatoria?", "answers": ["A. Varicocele", "B. Difteria", "C. Sífilis", "D. Botulismo"], "correct": 0}, {"q": "18. La enseñanza de los autocuidados está dentro de:", "answers": ["A. Educación para la salud secundaria", "B. Educación para la salud primaria", "C. Educación para la salud terciaria", "D. Ninguna de las anteriores"], "correct": 2}, {"q": "19. En lo que se refiere a los brotes y epidemias, ¿cuál de las siguientes afirmaciones es errónea?", "answers": ["A. Es la aparición de dos o más casos de una misma enfermedad asociados en tiempo, lugar y espacio", "B. Es la presencia de cualquier proceso relevante de intoxicación aguda colectiva, imputable a causa fortuita, manipulación o consumo", "C. Es la aparición de cualquier incidencia de tipo catastrófico que afecte o pueda afectar a la salud de una comunidad", "D. Es la aparición de una enfermedad, problema o riesgo para la salud en una zona hasta entonces afectada por ella"], "correct": 3}, {"q": "20. El estudio de Framingham se realizó en:", "answers": ["A. 1984", "B. 1894", "C. 1948", "D. 1849"], "correct": 2}, {"q": "21. ¿Cuál no es un objetivo del Servicio Andaluz de Salud?", "answers": ["A. Prestar atención sanitaria a los ciudadanos y ciudadanas andaluces", "B. Ofrecer servicios sanitarios de calidad", "C. Asegurar la accesibilidad, igualdad y satisfacción del usuario", "D. Aprovechamiento óptimo de los recursos"], "correct": 2}, {"q": "22. ¿Cuál de los siguientes enunciados no está dentro de la cartera de servicios de fisioterapia?", "answers": ["A. Consultoría de los equipos básicos de Atención Primaria", "B. Orientación del cuidador sobre la atención al paciente", "C. Valoración y tratamiento domiciliario", "D. Seguimiento del paciente para ver efectividad del tratamiento"], "correct": 3}, {"q": "23. ¿Cuál no es función del fisioterapeuta en Atención Primaria?", "answers": ["A. Promoción de la salud", "B. Prevención de la enfermedad", "C. Investigación y gestión", "D. Atención integral directa y domiciliaria"], "correct": 3}, {"q": "24. La primera reunión de la OMS tuvo lugar en:", "answers": ["A. Ginebra en 1984", "B. Ginebra en 1894", "C. Ginebra en 1948", "D. Ginebra en 1849"], "correct": 2}, {"q": "25. ¿Cuál no es una actividad de la OMS?", "answers": ["A. Tomar medidas sanitarias sobre los viajes internacionales", "B. Controlar las donaciones económicas", "C. Eliminación de residuos", "D. Protección maternal"], "correct": 3}, {"q": "31. Según los criterios de causalidad de Arthur Bradford Hill, la consistencia sería:", "answers": ["A. La reducción de la exposición a la causa se asocia a una disminución de la enfermedad", "B. La asociación tiene sentido de acuerdo con el conocimiento biológico del momento", "C. La relación causa-efecto ya establecida para un agente-enfermedad similares", "D. La asociación observada repetidamente por varias personas, en sitios, circunstancias y épocas diferentes"], "correct": 3}, {"q": "32. ¿Cuál de los siguientes enunciados no pertenece a una etapa de un plan de salud?", "answers": ["A. Formulación de objetivos", "B. Desarrollo de programas y actividades", "C. Intervención", "D. Todas pertenecen a un plan de salud"], "correct": 2}, {"q": "33. Según los criterios de causalidad de Arthur Bradford Hill, la ausencia de conflicto con la historia natural y biológica de la enfermedad sería:", "answers": ["A. Plausibilidad", "B. Experimento", "C. Especificidad", "D. Coherencia"], "correct": 3}, {"q": "34. Según Bradford Hill, cuando la magnitud de la enfermedad aumenta con la magnitud de la exposición a la causa, estaría refiriéndose a:", "answers": ["A. Especificidad", "B. Analogía", "C. Experimento", "D. Ninguna de las anteriores"], "correct": 3}, {"q": "35. ¿Cuál no es una función de un sistema de vigilancia?", "answers": ["A. Aporte de estadísticas sanitarias", "B. Difusión de la información a niveles competentes", "C. Elaboración de información y estadística sanitaria", "D. Todas son funciones"], "correct": 0}, {"q": "36. Según el estudio de Framingham, la menopausia se vinculó a un incremento del riesgo de padecer patología cardíaca. Esto se produjo en el año:", "answers": ["A. 1967", "B. 1970", "C. 1976", "D. 1978"], "correct": 2}, {"q": "37. En la gestión y administración de los servicios de salud, se debe tener la capacidad de:", "answers": ["A. Modernización de los servicios públicos", "B. Adecuarlas a las exigencias dadas por los antiguos sistemas de prestación de servicios", "C. Ajustarse a los procesos de centralización de los servicios públicos", "D. Mantener su infraestructura y dotación donde se requiera"], "correct": 0}, {"q": "38. El estudio de Framingham en 1967 descubrió lo siguiente:", "answers": ["A. Los factores psicológicos influyen en la enfermedad cardíaca", "B. La hipertensión arterial se relacionó con el aumento del riesgo de padecer un ACV", "C. La obesidad aumenta el riesgo de padecer patología cardíaca", "D. La fibrilación auricular se vinculó a un riesgo 5 veces mayor de padecer un ACV"], "correct": 2}, {"q": "39. ¿Cuál no es una ventaja de la estrategia individual de alto riesgo en la prevención de enfermedades crónicas?", "answers": ["A. Mayor motivación para el cambio del individuo y del médico", "B. Posibilidad de establecer una intervención adecuada para cada individuo en particular", "C. Razón riesgo-beneficio favorable", "D. La exposición de los mismos a contraer la enfermedad"], "correct": 3}, {"q": "40. ¿Cuál no es un inconveniente en la estrategia poblacional de prevención de enfermedades crónicas?", "answers": ["A. Baja motivación del individuo y del médico", "B. No se aprecian beneficios inmediatos", "C. Intenta eliminar las causas subyacentes que hacen que una enfermedad constituya un problema frecuente", "D. Ninguna respuesta es correcta"], "correct": 2}]}, {"id": 2, "name": "Examen 2", "questions": [{"q": "1. Que tipo de enfermedad no se trataría a domicilio", "answers": ["a) Espondilitis", "b) Capsulitis", "c) Linfedemas crónicos postmastectomia", "d) Artritis reumatoide"], "correct": 2}, {"q": "2. Los gobiernos deberían formular políticas y planes de acciones para establecer la APS como parte de un sistema nacional de salud integrado y en coordinación con otros sectores. Esto requiere del ejercicio de voluntades políticas, a fin de movilizar recursos internos y externos.", "answers": ["a) X", "b) IX", "c) VIII", "d) VII"], "correct": 2}, {"q": "3. La consecución de la salud, por la población de un país, afecta y beneficia directamente a cualquier otro país. Todos los países deberían cooperar para asegurar la APS en todo el mundo.", "answers": ["a) X", "b) VII", "c) IX", "d) VI"], "correct": 2}, {"q": "4. Quien definió las enfermedades que tenían causas.", "answers": ["a) Bradford Hill", "b) Denisse Rothman", "c) Mcamhon", "d) N.A"], "correct": 3}, {"q": "5. En que año y quien publicó unos criterios para valorar la posible causalidad de una asociación.", "answers": ["a) Bradford Hill 1956", "b) Arthur Koch 1886", "c) Bradford Hill 1965", "d) Arthur Koch 1869"], "correct": 2}, {"q": "6. Cuál de las siguientes afirmaciones es correcta:", "answers": ["a) En 1654 Girolamo Fracastoro publicó en Venecia el libro: de contagione et contagiosis morbis et eorum curatione.", "b) En 1546 Girolamo Fracastoro publicó en Florencia el libro: de contagione et contagiosis morbis et eorum curatione.", "c) En 1564 Girolamo Fracastoro publicó en Venecia el libro: de contagione et contagiosis morbis et eorum curatione.", "d) En 1546 publicó en Venecia el libro: de contagione et contagiosis morbis et eorum curatione."], "correct": 3}, {"q": "7. Según la guía de procedimientos de rehabilitación y fisioterapia, cuál no sería la función de la fisioterapia en atención primaria:", "answers": ["a) diagnosticar la patología del paciente", "b) valorar y establecer el alta del paciente", "c) informar de forma técnica al paciente acerca de su recuperación y de su discapacidad", "d) ninguna es función del fisioterapeuta"], "correct": 3}, {"q": "8. Cuál no es una aplicación de la epidemiología", "answers": ["a) metodología de la investigación", "b) valorar pruebas diagnósticas", "c) ayudar a la enseñanza", "d) intervención sanitaria"], "correct": 3}, {"q": "9. Según los criterios de causalidad de Arthur Bradford Hill: la ausencia de conflicto con la historia natural y biológica de la enfermedad, sería:", "answers": ["a) plausibilidad", "b) experimento", "c) especificidad", "d) coherencia"], "correct": 3}, {"q": "10. Según Bradford Hill: asociación observada repetidamente por varias personas, en sitios, circunstancias y épocas diferentes:", "answers": ["a) especificidad", "b) analogía", "c) experimento", "d) Consistencia"], "correct": 3}, {"q": "11. En qué artículo del Decreto 137/2002 referente al Plan de Apoyo a la Familia, se establece que se facilitará la accesibilidad de los pacientes a los servicios de rehabilitación y fisioterapia en su propio entorno:", "answers": ["a) 21", "b) 23", "c) 25", "d) 27"], "correct": 2}, {"q": "12. Cuál del siguiente grupo de enfermedades no es de declaración obligatoria:", "answers": ["a) varicocele", "b) difteria", "c) sífilis", "d) botulismo"], "correct": 0}, {"q": "13. Con respecto a la crisis de los sistemas sanitarios, que enunciado es falso:", "answers": ["a) está causado por el envejecimiento de la población", "b) está causado por el fuerte cociente de la mano de obra especializada", "c) causada por la incorporación de nuevas tecnologías", "d) causada por el aumento de enfermedades crónicas y degenerativas"], "correct": 1}, {"q": "14. Cual no es un objetivo del Servicio Andaluz de Salud:", "answers": ["a) prestar atención sanitaria a todos los ciudadanos", "b) ofrecer servicios sanitarios privados", "c) asegurar la accesibilidad, igual y satisfacción del usuario", "d) aprovechamiento óptimo de los recursos"], "correct": 1}, {"q": "15. El conjunto de los elementos que influyendo sobre el estado de salud, emplean la técnica médica de manera preponderante o intensiva, se conoce como:", "answers": ["a) modelo sanitario", "b) sistema sanitario", "c) sistema de salud", "d) modelo de salud"], "correct": 1}, {"q": "16. Cuál no es una enfermedad que se le pueda aplicar fisioterapia", "answers": ["a) Sialorrea", "b) Incontinencia urinaria", "c) Enfermedades neurológicas", "d) B y C son correctas"], "correct": 0}, {"q": "17. El programa de salud materno infantil fue aprobado por:", "answers": ["a) Pleno del Consejo Interterritorial del Sistema Nacional de Salud", "b) Pleno del Patronato Interterritorial del Sistema Nacional de Salud", "c) pleno del Parlamento Interterritorial del Sistema Nacional de Salud", "d) pleno del Parlamento de Servicio Andaluz de Salud"], "correct": 0}, {"q": "18. Dentro de las prestaciones del Sistema Nacional de Salud, cuál de los enunciados es verdadero:", "answers": ["a) se exige declaración previa del estado de salud para causar derecho a la prestaciones de la misma", "b) existe periodo de carencia", "c) asegura hospitalización hasta el alta", "d) asegura asistencia en todos los países"], "correct": 2}, {"q": "19. La Ley de Salud Escolar y la Ley de Prevención, asistencia y reinserción social en materia de drogodependencias, tienen por objetivo:", "answers": ["a) la educación para la salud de la población escolar", "b) elevar la calidad de los adultos mayores", "c) promover la participación activa de los adultos", "d) vigilancia del desarrollo del niño hasta los 14 años"], "correct": 0}, {"q": "20. Quién dijo lo siguiente: la salud internacional se refiere a la estatus de salud interrelacionado y enclavado de las personas en todo el mundo y los esfuerzos para mejorar la salud de todas las personas en cada país.", "answers": ["a) Foege Last", "b) Eduard Jenner", "c) Beng-Ake Lundvall", "d) John de Saint"], "correct": 0}, {"q": "21. Quien sostuvo esto: la fuente más fundamental en economía moderna es el conocimiento, y el proceso más importante es el aprendizaje", "answers": ["a) Beng-Ake Lundvall", "b) Foege Last", "c) Eduard Jenner", "d) John de Saint"], "correct": 0}, {"q": "22. Quién sostuvo esto: la salud es principalmente una medida de la capacidad de cada persona de hacer o de convertirse en lo que quiere ser.", "answers": ["a) René Dubos", "b) John de Saint", "c) Moshé Feldenkrais", "d) Foege Last"], "correct": 0}, {"q": "23. Cuál no es un indicador de actividad hospitalaria:", "answers": ["a) Índice de rotación enfermo/cama", "b) Ciclo medio hospitalario", "c) Intervalo de sustitución", "d) Índice de dependencia hospitalaria"], "correct": 3}, {"q": "24. Cuál no es un indicador de relación población-hospital:", "answers": ["a) Presión hospitalaria", "b) Frecuencia hospitalaria", "c) Índice de dependencia hospitalaria", "d) Índice de rotación enfermo/cama"], "correct": 3}, {"q": "25. La primera reunión de la OMS tuvo lugar en:", "answers": ["a) Ginebra en 1984", "b) Ginebra en 1894", "c) Ginebra en 1948", "d) Ginebra en 1849"], "correct": 2}, {"q": "26. ¿Cuál no sería una función del fisioterapeuta en la atención primaria?", "answers": ["a) Identificar los factores de riesgo del puesto de trabajo", "b) enseñar formas de movilización y traslado de cargas", "c) practicar técnicas de relajación durante pausas en el trabajo", "d) búsqueda y colocación en el puesto de trabajo"], "correct": 3}, {"q": "27. Cuál no es una actividad de la OMS:", "answers": ["a) tomar medidas sanitarias sobre los viajes internacionales", "b) controlar las donaciones económicas", "c) eliminación de residuos", "d) protección maternal"], "correct": 1}, {"q": "28. En cuanto a la AP cual es falsa:", "answers": ["a) No me acuerdo de opción", "b) Se estima que al menos el 30% de su tiempo semanal realice su actividad en las salas de fisioterapia y el 70% restante se distribuya en casa.", "c) Se estima que al menos el 70% de su tiempo semanal realice su actividad en las salas de fisioterapia y el 30% restante se distribuya en casa.", "d) No me acuerdo de opción"], "correct": 1}, {"q": "29. La ley complementariedad de cc.aa; según la Ley de Sanidad está incluida en el artículo:", "answers": ["a) 2.2", "b) 2.3", "c) 2.4", "d) 1.2"], "correct": 0}, {"q": "30. El término epidemia se empezó a utilizar durante los siglos:", "answers": ["a) I-II", "b) III-IV", "c) V-VI", "d) VII-VIII"], "correct": 2}, {"q": "31. Cuál de los siguientes enunciados no está dentro de la cartera de servicios de fisioterapia", "answers": ["a) consultoría de los equipos básicos de atención primaria", "b) orientación del cuidador sobre la atención al paciente", "c) valoración y tratamiento domiciliario", "d) seguimiento del paciente para ver efectividad del tratamiento"], "correct": 3}, {"q": "32. Cual no es función del fisioterapeuta en atención primaria:", "answers": ["a) promoción de la salud", "b) prevención de la enfermedad", "c) investigación y gestión", "d) atención integral directa y domiciliaria"], "correct": 3}, {"q": "33. Cual de estas es falsa", "answers": ["a) Tumores malignos ocupan la segunda causa de muerte con una tasa de 230,9/100.000 habitantes", "b) Diabetes Mellitus con una tasa de 28,3/100.000 habitantes", "c) Enfermedades infecciosas, incluyendo el VIH, con una tasa de 17,3/100.000 habitantes.", "d) Todas son correctas"], "correct": 1}, {"q": "34. Según las funciones de la prevalencia e incidencia señale la correcta:", "answers": ["a) La incidencia es más aceptada que la prevalencia para estudiar la etiología de una enfermedad y evaluar medidas preventivas.", "b) La prevalencia se usa en la medición de la morbilidad.", "c) La incidencia se utiliza en la medición de la morbilidad y la mortalidad.", "d) Todas son correctas."], "correct": 3}, {"q": "35. Qué significa DALY", "answers": ["a) Aporta información complementaria a la morbilidad.", "b) Aporta información complementaria a la mortalidad.", "c) Enfermedades del adulto mejor representadas", "d) Enfermedades infantiles peor representadas"], "correct": 1}, {"q": "36. ¿Cuál de las siguientes acciones no corresponde a la educación para la salud secundaria?", "answers": ["a) Informar de los primeros síntomas de enfermedades de alto riesgo.", "b) Orientar sobre donde ir para realizar diagnóstico y tratamiento precoces.", "c) Estimular los exámenes de salud sistemáticos", "d) Erradicar actitudes, conocimientos y hábitos insanos."], "correct": 3}, {"q": "37. ¿Cuál de las siguientes patologías no estarían incluidas en el proceso de fisioterapia en atención primaria?", "answers": ["a) patología osteoarticular aguda degenerativa sin déficits en el balance articular y muscular", "b) patología osteoarticular crónica degenerativa con déficits en el balance articular y muscular", "c) patología osteoarticular aguda degenerativa con déficits en el balance articular y muscular", "d) patología osteoarticular crónica degenerativa sin déficits en el balance articular y muscular"], "correct": 3}, {"q": "38. La enseñanza de los autocuidados está dentro de:", "answers": ["a) Educación para la Salud secundaria", "b) educación para la salud primaria", "c) educación para la salud terciaria", "d) ninguna de las anteriores"], "correct": 2}, {"q": "39. Señala la incorrecta respecto a los criterios para valorar la posible causalidad:", "answers": ["a) La causa precede al efecto", "b) Una causa lleva a un solo efecto", "c) La reducción de la exposición a la causa se asocia a una disminución de la enfermedad.", "d) Esta es la falsa, pero no me acuerdo exactamente cual, pero es de enunciado largo."], "correct": 3}]}];
-const LS_KEY='medquiz_kahoots_v2',ADMIN_PASS='medquiz2024';
-let isAdmin=false,kahoots=[],currentKahootId=null,queue=[],retryQueue=[],currentIdx=0,correctCount=0,wrongCount=0,totalStarted=0,answered=false;
 
-function loadData(){const r=localStorage.getItem(LS_KEY);if(r){const s=JSON.parse(r),bi=BASE_KAHOOTS.map(k=>k.id),ex=s.filter(k=>!bi.includes(k.id));kahoots=BASE_KAHOOTS.map(b=>{const lv=s.find(k=>k.id===b.id);return lv||b;}).concat(ex);}else{kahoots=BASE_KAHOOTS.map(k=>({...k}));saveData();}}
-function saveData(){localStorage.setItem(LS_KEY,JSON.stringify(kahoots));}
-function getKahoot(id){return kahoots.find(k=>k.id===id);}
-function toggleAdmin(){if(isAdmin){isAdmin=false;updateAdminUI();showToast('Modo lectura activado');return;}document.getElementById('adminPassInput').value='';document.getElementById('adminPassErr').style.display='none';openModal('modalAdminLogin');setTimeout(()=>document.getElementById('adminPassInput').focus(),300);}
-function checkAdminPass(){const v=document.getElementById('adminPassInput').value;if(v===ADMIN_PASS){isAdmin=true;closeModal('modalAdminLogin');updateAdminUI();showToast('✅ Modo edición activado');}else{document.getElementById('adminPassErr').style.display='block';}}
-function updateAdminUI(){renderHome();}
-function renderHome(){const g=document.getElementById('kahootGrid');g.innerHTML='';kahoots.forEach(k=>{const c=document.createElement('div');c.className='kahoot-card';c.innerHTML=(isAdmin?`<button class="kedit-btn" onclick="event.stopPropagation();openEdit(${k.id})">✏️ Editar</button>`:'')+`<div class="kname">${k.name}</div><div class="kcount">${k.questions.length} preguntas</div><button class="kplay-btn" onclick="event.stopPropagation();startGame(${k.id})">▶ JUGAR</button>`;g.appendChild(c);});if(isAdmin){const a=document.createElement('div');a.className='add-kahoot-card';a.onclick=()=>openModal('modalNewKahoot');a.innerHTML='<div class="plus">＋</div><div class="lbl">Nuevo kahoot</div>';g.appendChild(a);}}
-function goHome(){showScreen('screenHome');renderHome();}
-function openEdit(id){if(!isAdmin)return;currentKahootId=id;const k=getKahoot(id);document.getElementById('editTitle').textContent=k.name;document.getElementById('editNameInput').value=k.name;renderQList(k);showScreen('screenEdit');}
-function renderQList(k){const l=document.getElementById('editQList');document.getElementById('editQCount').textContent=k.questions.length;l.innerHTML=k.questions.map((q,i)=>`<div class="q-item"><span class="q-item-num">${i+1}</span><span class="q-item-text">${q.q}</span><button class="q-del-btn" onclick="deleteQuestion(${i})">✕</button></div>`).join('');}
-function saveKahootName(){const n=document.getElementById('editNameInput').value.trim();if(!n)return;const k=getKahoot(currentKahootId);k.name=n;document.getElementById('editTitle').textContent=n;saveData();showToast('✅ Nombre guardado');}
-function addQuestionsToKahoot(){const r=document.getElementById('addQInput').value.trim();try{const p=JSON.parse(r);if(!Array.isArray(p)||!p.length)throw new Error();p.forEach(i=>{if(!i.q||!i.answers||i.correct===undefined)throw new Error();});const k=getKahoot(currentKahootId);k.questions.push(...p);saveData();renderQList(k);document.getElementById('addQInput').value='';showToast(`✅ ${p.length} preguntas añadidas`);}catch(e){showToast('❌ Formato incorrecto.',true);}}
-function deleteQuestion(i){const k=getKahoot(currentKahootId);k.questions.splice(i,1);saveData();renderQList(k);showToast('Pregunta eliminada');}
-function deleteKahoot(){if(!confirm('¿Eliminar este kahoot?'))return;kahoots=kahoots.filter(k=>k.id!==currentKahootId);saveData();goHome();showToast('Kahoot eliminado');}
-function createKahoot(){const n=document.getElementById('newKahootName').value.trim();if(!n)return;const k={id:Date.now(),name:n,questions:[]};kahoots.push(k);saveData();closeModal('modalNewKahoot');document.getElementById('newKahootName').value='';renderHome();showToast(`✅ Kahoot "${n}" creado`);}
-function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-function startGame(id){
-  currentKahootId=id;
-  const k=getKahoot(id);
-  if(!k.questions.length){showToast('Sin preguntas',true);return;}
-  queue=shuffle(k.questions).map(q=>({q:q.q,answers:q.answers,correctIdx:q.correct,isRetry:false}));
-  retryQueue=[];currentIdx=0;correctCount=0;wrongCount=0;totalStarted=queue.length;
-  showScreen('screenGame');showQuestion();
-}
-function showQuestion(){
-  answered=false;
-  if(currentIdx>=queue.length){
-    if(retryQueue.length>0){queue=queue.concat(retryQueue.map(q=>({...q,isRetry:true})));retryQueue=[];}
-    else{endGame();return;}
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// kahoots.js generado el 2026-06-04
+const NEURO1_QUESTIONS = [
+  {q:"El sistema nervioso de relación se encarga de:",answers:["Tono muscular, información sensorial, coordinación y equilibrio","Une la vida psíquica con el ambiente exterior","Control automático de las vísceras, trofismo y sistema endocrino","Se encarga de la conexión propioceptiva"],correct:1},
+  {q:"Los nódulos de Ranvier:",answers:["Son interrupciones en las vainas de mielina","Se encuentran en las dendritas y facilitan la sinapsis","Dan soporte y fabrican las vainas de mielina","Se encuentran en el botón sináptico"],correct:0},
+  {q:"La única función del axón es la conducción del impulso nervioso:",answers:["Falso","Verdadero"],correct:0},
+  {q:"El transporte centrípeto en el axón:",answers:["Ocurre desde los botones terminales hacia el soma neuronal","Ocurre desde el soma hacia los botones terminales","Ocurre desde soma a botón terminal y viceversa","Centrípeto es igual que transporte anterógrado"],correct:0},
+  {q:"En la sinapsis química la comunicación es unidireccional:",answers:["Verdadero","Falso"],correct:0},
+  {q:"En las sinapsis eléctricas los espacios de interconexión:",answers:["Son frecuentes en las neuronas en desarrollo y en las glías","Son frecuentes en las neuronas maduras y en las glías","Son frecuentes en las neuronas maduras y en desarrollo","Son frecuentes únicamente en las glías"],correct:0},
+  {q:"Los oligodendrocitos:",answers:["Forman la Vaina de Mielina en el SNC","Actúan frente a la inflamación y daños del tejido nervioso","Forman la Vaina de Mielina en el sistema nervioso periférico","Forman la barrera hematoencefálica"],correct:0},
+  {q:"El telencéfalo o cerebro consta de:",answers:["H. cerebral, corteza, stma límbico, núcleos basales, vent. laterales","H. cerebral, corteza, tálamo, n. basales y ventrículos","H. cerebral, corteza, tálamo, n. basales y epitálamo","H. cerebral, corteza, tálamo, n. basales y subtálamo"],correct:0},
+  {q:"El LCR circula:",answers:["Entre aracnoides y piamadre","Entre duramadre y aracnoides","Debajo de la piamadre","Encima de la duramadre"],correct:0},
+  {q:"En el giro precentral:",answers:["La cabeza está en la parte más inferior del giro","El área representada de la cara es pequeña","La cabeza está en la parte más superior del giro","La mano está representada encima del cuerpo calloso"],correct:0},
+  {q:"El campo ocular frontal se encuentra próximo a la cisura longitudinal del hemisferio:",answers:["Verdadero","Falso"],correct:1},
+  {q:"En el Hipocampo se produce:",answers:["Se encarga de la memoria y aspectos emocionales de conducta","Responsables de la percepción olfato","Percepción sonido"],correct:0},
+  {q:"El estupor:",answers:["Estado inmediato previo al coma","Estado de pérdida de conciencia sin apertura de ojos a estímulos","Somnolencia, desinterés, lentitud de pensamiento","Puede durar hasta alrededor de un mes"],correct:0},
+  {q:"La prosopagnosia:",answers:["Incapacidad para reconocer rostros","Incapacidad para reconocer objetos mediante el tacto","Incapacidad para autoreconocernos","Es la imposibilidad de evocar recuerdos"],correct:0},
+  {q:"Sinc. de imitación: la contracción de un músculo en el lado sano produce la contracción del mismo en el lado afectado:",answers:["Verdadero","Falso"],correct:0},
+  {q:"Afasia de conducción:",answers:["Hablan y comprenden pero con pausas y palabras incorrectas","Alteración de la comprensión del lenguaje","Alteración de la emisión del lenguaje","Incapacidad para nombrar objetos"],correct:0},
+  {q:"El prototipo de paciente con ACV:",answers:[">60, arteriosclerosis, HTA, aneurismas, tumores",">70, arteriosclerosis, HTA, aneurismas, tumores",">40, arteriosclerosis, HTA, aneurismas, tumores"],correct:0},
+  {q:"En un ACV la zona de penumbra:",answers:["Rodea al núcleo isquémico con flujo menor del 50%","Es el área donde las neuronas no están necróticas","La evolución es rápida y a veces irreversible","Ninguna es correcta"],correct:0},
+  {q:"Las neuronas motoras inferiores tienen sus cuerpos celulares en la médula espinal y tronco del encéfalo:",answers:["Verdadero","Falso"],correct:0},
+  {q:"La vía piramidal la forman:",answers:["Haz córtico espinal lateral, medial y haz córticonuclear","Haz córtico espinal lateral, medial y haz reticuloespinal","Haz córtico espinal lateral, medial y haz vestibuloespinal","Haz córtico espinal lateral, medial y haz tectoespinal"],correct:0},
+  {q:"El tracto córticoespinal ventral se decusa a nivel de la médula oblongada:",answers:["Verdadero","Falso"],correct:1},
+  {q:"El tracto tectoespinal:",answers:["Dirige la cabeza y los ojos hacia un objetivo","Permite la estabilidad de la cabeza","Intervienen en el control de la postura","Estimula los músculos flexores e inhibe los extensores"],correct:0},
+  {q:"Haz espinotalámico lateral transmite el dolor y la temperatura:",answers:["Verdadero","Falso"],correct:0},
+  {q:"La vía piramidal controla la movilidad del tronco y las extremidades:",answers:["Inhibiendo la actividad de la motoneurona","Excitando la actividad de la motoneurona","Inhibiendo y excitando la actividad de la motoneurona","Todas son falsas"],correct:0},
+  {q:"Cuando hay ausencia de movimiento voluntario o lentitud para iniciarlo se denomina:",answers:["Bradicinesia","Bradinesia","Hipocinesia","Bradiacinesia","Acinesia"],correct:0},
+  {q:"Los gliomas no se originan en neuronas:",answers:["Verdadero","Falso"],correct:0},
+  {q:"Definición de tumor cerebral:",answers:["Crecimiento celular anormal","Hemorragia leve","Malformación venosa","Infección bacteriana"],correct:0},
+  {q:"Síntoma clave de hipertensión craneal:",answers:["Cefalea","Hipotensión","Anhidrosis","Hipo"],correct:0},
+  {q:"Pseudotumor cerebral causa:",answers:["Desequilibrio del LCR","Trombosis venosa","Meningitis bacteriana","Hipertensión arterial"],correct:0},
+  {q:"Metástasis cerebrales frecuentes provienen de:",answers:["Pulmón y mama","Estómago solo","Tiroides y colon","Páncreas solo"],correct:0},
+  {q:"Manifestación focal de lóbulo frontal:",answers:["Alteraciones cognitivas","Alteraciones visuales","Afasia","Diplopía"],correct:0},
+  {q:"¿Demencia más frecuente después de Alzheimer?",answers:["Vascular","Parkinson","Lewy","Frontotemporal"],correct:0},
+  {q:"¿Neurotransmisor reducido en Alzheimer?",answers:["Acetilcolina","Dopamina","Serotonina","Noradrenalina"],correct:0},
+  {q:"Objetivo de rehabilitación en demencias:",answers:["Compensar deterioro","Curación completa","Aislar paciente","Suspender cuidados"],correct:0},
+  {q:"Rasgo clave de demencia con cuerpos de Lewy:",answers:["Alucinaciones visuales","Inicio agudo","Agnosia prominente","Apraxia grave","Euforia persistente"],correct:0},
+  {q:"Enfermedad de Pick afecta:",answers:["Lóbulos frontotemporales","Cerebelo solo","Occipital aislado","Tronco cerebral"],correct:0},
+  {q:"La demencia afecta memoria y conducta:",answers:["Verdadero","Falso"],correct:0},
+  {q:"Síntoma cognitivo temprano típico:",answers:["Amnesia reciente","Agnosia severa","Apraxia grave","Afasia"],correct:0},
+  {q:"Función del rubroespinal:",answers:["Activa flexores","Controla visión","Modula dolor","Activa extensores"],correct:0},
+  {q:"Tracto que dirige cabeza y ojos:",answers:["Tectoespinal","Grácil","Espinocerebeloso","Cuneiforme"],correct:0},
+  {q:"El transporte en el interior del axón puede ser:",answers:["A y B son verdaderas","A - Centrífugo: ocurre desde el soma neuronal hacia el final del axón","B - Centrípeto: ocurre desde los botones terminales hacia el soma neurón","A y B son falsas"],correct:0},
+  {q:"En general las neuronas responsables de transmitir la información de los sentidos son:",answers:["Bipolares","Unipolares","Multipolares","Tripolares"],correct:0},
+  {q:"4 conexinas forman una conexona en la sinapsis eléctrica:",answers:["Falso","Verdadero"],correct:0},
+  {q:"La función de los astrocitos es:",answers:["Formar la barrera hematoencefálica","Formar la vaina de mielina en el SNP","Formar la vaina de mielina en el SNC","Actuar frente a la inflamación y daño en el tejido nervioso"],correct:0},
+  {q:"El líquido cefalorraquídeo circula entre:",answers:["Aracnoides y piamadre","Duramadre y aracnoides","Duramadre y piamadre","Paquimeninge y aracnoides"],correct:0},
+  {q:"El área de la cabeza se encuentra representado en el lóbulo frontal:",answers:["En la parte más inferior del giro precentral","En la parte más superior del giro precentral","En la parte media del giro precentral","En la parte más medial del hemisferio, sobre el cuerpo calloso"],correct:0},
+  {q:"La elaboración y regulación de las respuestas motoras haciéndolas conscientes corresponde al:",answers:["Nivel cortical","Nivel subcortical","Nivel medular","Nivel laberíntico"],correct:0},
+  {q:"Las neuronas presentes en ganglio de la raíz posterior son:",answers:["Unipolares","Bipolares","Multipolares","Cuatripolares"],correct:0},
+  {q:"Las neuronas se localizan en:",answers:["Encéfalo, médula espinal y ganglios nerviosos","Encéfalo","Médula espinal","Ganglios nerviosos"],correct:0},
+  {q:"La sustancia de Nissl en la neurona:",answers:["Sintetiza y transporta proteínas en el interior de la célula","Sintetiza y transporta moléculas en el interior de la célula","Sintetiza y transporta proteínas en el axón de la célula","Sintetiza y transporta proteínas en el botón terminal de la célula"],correct:0},
+  {q:"La sinapsis eléctrica utiliza neurotransmisores:",answers:["Falso","Verdadero"],correct:0},
+  {q:"En una sinapsis química se le denomina zona activa:",answers:["A la zona de liberación de los neurotransmisores","A la dendrita","Al botón postsináptico","A la zona de recepción de los neurotransmisores"],correct:0},
+  {q:"Cual es el neurotransmisor que retiene la información y la almacena:",answers:["Acetilcolina","Dopamina","Noradrenalina","Serotonina"],correct:0},
+  {q:"Cuando a una persona le gusta relacionarse con los demás y tener mucha vida social ¿qué neurotransmisor interviene?",answers:["Noradrenalina","Dopamina","Ácido gamma aminobutírico","Acetilcolina"],correct:0},
+  {q:"En una sinapsis química:",answers:["Hay retardo sináptico siendo unidireccional","No hay retraso sináptico liberando neurotransmisores","Hay retraso sináptico siendo bidireccional","No hay retraso sináptico siendo bidireccional"],correct:0},
+  {q:"Qué es la densidad postsináptica:",answers:["Donde se encuentran los receptores de los neurotransmisores","Donde se libera el neurotransmisor","El cuerpo del botón postsináptico","El espacio entre botón presináptico y postsináptico"],correct:0},
+  {q:"Cual es el potencial de reposo de una neurona:",answers:["-70mV","-60mV","-50mV","-80mV"],correct:0},
+  {q:"¿Qué neuroglia tiene función fagocitaria?",answers:["Microglia","Astrocito","Oligodendrocito","Células de Schwann"],correct:0},
+  {q:"Los receptores cutáneos encargados de percibir la textura son los:",answers:["Discos táctiles de Merkel","Corpúsculos de Vater-Pacini","Manguitos pilosos"],correct:0},
+  {q:"Los órganos tendinosos de Golgi se encuentran en los tendones y responden a niveles relativamente altos de tensión:",answers:["Verdadero","Falso"],correct:0},
+  {q:"Señala la respuesta verdadera:",answers:["Rojo y amarillo son correctos","La sustancia blanca son las fibras nerviosas","La sustancia blanca son las fibras y somas","La sustancia gris son las células nerviosas"],correct:0},
+  {q:"La zona rostral en el sistema nervioso pertenece:",answers:["A la zona más superior del sistema nervioso","A la zona más inferior del sistema nervioso","A la zona más posterior del sistema nervioso","A la zona más anterior del sistema nervioso"],correct:0},
+  {q:"El secretor del LCR en el sistema nervioso es:",answers:["Plexo coroideo","Tercer ventrículo","Cuarto ventrículo","Ventrículo lateral"],correct:0},
+  {q:"El hemisferio izquierdo prefiere:",answers:["Hablar, escuchar, leer y escribir","Dibujar, escuchar, ver imágenes","Prefiere instrucciones no verbales","Resolver los problemas con intuición"],correct:0},
+  {q:"Los gestos emocionales son controlados por:",answers:["Lóbulo frontal","Lóbulo temporal","Lóbulo parietal","Lóbulo occipital"],correct:0},
+  {q:"Cuando desviamos la mirada con ambos ojos hacia un mismo lado activamos el campo ocular del lóbulo:",answers:["Frontal","Occipital","Temporal","Parietal"],correct:0},
+  {q:"La corteza somatosensorial primaria se encuentra en:",answers:["Lóbulo parietal","Lóbulo frontal","Lóbulo temporal","Lóbulo occipital"],correct:0},
+  {q:"El hipocampo y la amígdala forman parte del área límbica siendo sus funciones:",answers:["Hipocampo: memoria y emociones. Amígdala: percepción olfato","Hipocampo: memoria y emociones. Amígdala: entendimiento del lenguaje","Amígdala: memoria y emociones. Hipocampo percepción olfato","Hipocampo: percepción auditiva. Amígdala: entendimiento del lenguaje"],correct:0},
+  {q:"El test de Klein es un test para valorar la integridad de:",answers:["La arteria vertebral","Arteria basilar","Carótida interna","Arteria cerebral media"],correct:0},
+  {q:"El drenaje de los senos venosos y venas yugulares se realiza a través:",answers:["Del agujero rasgado posterior entre occipucio y temporal","Del agujero rasgado posterior entre occipucio y parietal","Del agujero rasgado anterior entre occipucio y parietal","Del agujero rasgado anterior entre occipucio y temporal"],correct:0},
+  {q:"En la fase de estupor el paciente:",answers:["Todas son falsas","Responde a estímulos verbales","El paciente no responde a estímulos dolorosos","El paciente no responde a ningún estímulo"],correct:0},
+  {q:"Qué es la prosopagnosia:",answers:["Incapacidad para identificar los rostros","Incapacidad para autoreconocerse","Incapacidad para reconocer objetos con el tacto","Incapacidad de evocar recuerdos"],correct:0},
+  {q:"La anartria y disartria son frecuentes en:",answers:["La afasia motora de Brocca","La afasia sensitiva de Wernicke","Afasia sensitiva y motora de Brocca","En ninguna de ellas"],correct:0},
+  {q:"Si un paciente tiene agrafía pensaremos en una lesión del lóbulo:",answers:["Frontal","Temporal","Occipital"],correct:0},
+  {q:"La desmielinización progresiva es característica de:",answers:["Esclerosis múltiple","Demencia senil","Demencia por cuerpos de Lewy","Parkinson"],correct:0},
+  {q:"La estructura anatómica que une ambos hemisferios cerebrales es:",answers:["Cuerpo calloso","Cisura central","Diencéfalo","Circunvoluciones de la corteza cerebral"],correct:0},
+  {q:"La decusación de las fibras nerviosas se produce a nivel:",answers:["Bulbo raquídeo","Diencéfalo","Mesencéfalo","Corteza cerebral"],correct:0},
+  {q:"En el sistema nervioso central las neuroglías suponen un número mayor que las neuronas:",answers:["9 veces más","20 veces más","No es cierto ambas están en número similar","Las neuronas son más numerosas que las glías"],correct:0},
+  {q:"Las bandas oligoclonales de IgG en el LCR son típicas de:",answers:["ECM","ELA","MENINGITIS","COREOATETOSIS"],correct:0},
+  {q:"En el reflejo miotático inverso:",answers:["Al aumentar la tensión del tendón se inhibe la contracción muscular","Al contraer el agonista se relaja el antagonista","Al aumentar la longitud de la fibra muscular provoca una contracción","Ninguna es correcta"],correct:0},
+  {q:"La motoneurona alfa:",answers:["Ambas son verdaderas","Se ramifica muchas veces antes de entrar en el músculo","La estimulación de una fibra estimula a varios cientos de fibras musculares","Ambas son falsas"],correct:0},
+  {q:"En el enclaustramiento el paciente no puede hacer movimientos por lesión de las vías corticobulbares y corticoespinales:",answers:["Roja y verde son verdaderas","Estando el SRAA intacto","Estando dañado el SRAA","La causa más frecuente es el infarto o hemorragia protuberancial"],correct:0},
+  {q:"Si hay una fractura del etmoides hay riesgo de ageusia:",answers:["Falso","Verdadero"],correct:0},
+  {q:"Si vemos a un paciente en la calle caminar con la cabeza inclinada de forma constante podemos pensar en:",answers:["Afectación del IV par craneal","Afectación del VI par craneal","Afectación del X par craneal","Afectación del III par craneal"],correct:0},
+  {q:"Si al percutir con el diapasón y colocarlo en la mastoides lo oímos más que al lado del oído es porque:",answers:["Existe lesión de la vía área","Existe lesión de la vía ósea","Existe lesión de la vía área y ósea","No existe lesión, es normal"],correct:0},
+  {q:"Los dos tercios anteriores de la lengua sensitivamente están inervados por:",answers:["Facial","Hipogloso","Glosofaríngeo","Trigémino"],correct:0},
+  {q:"En la parálisis de Duchene ERB:",answers:["Existe pronación del antebrazo","Existe supinación del antebrazo","Existe flexión de codo","Existe rotación externa de hombro"],correct:0},
+  {q:"En la Miastenia Gravis:",answers:["Hay una afectación del III par craneal","Afectación del II par craneal","Afectación del VI par craneal","Afectación del V par craneal"],correct:0},
+  {q:"En la pregunta sobre la parálisis de Duchene hemos dicho que el brazo se mantiene en supinación:",answers:["Falso","Verdadero"],correct:0},
+  {q:"La Enfermedad de Bisgwanger:",answers:["Es una demencia de origen vascular","Es una demencia de origen metabólico","Es una demencia de origen infeccioso","Es una demencia de origen degenerativo"],correct:0},
+  {q:"El neurotransmisor más afectado en la enfermedad de Alzheimer es:",answers:["Roja y verde son verdaderas (acetilcolina y glutamato)","Acetilcolina","Glutamato","Somatostatina"],correct:0},
+  {q:"La Tríada de Cushing se caracteriza por:",answers:["Hipertensión, bradicardia y alteraciones respiratorias","Hipotensión, bradicardia y alteraciones respiratorias","Hipertensión, taquicardia sin alteraciones respiratorias","Hipertensión, taquicardia y alteraciones respiratorias"],correct:0},
+  {q:"Las metástasis cerebrales más frecuentes son:",answers:["Cáncer pulmonar, cáncer de mama, melanoma y cáncer de riñón","Osteosarcoma, melanoma y cáncer pulmonar","Cáncer de mama, cáncer de páncreas, cáncer de colon, cáncer pulmonar","Cáncer de estómago, cáncer pulmonar, melanoma, linfomas"],correct:0}
+];
+
+const RESPI1_QUESTIONS = [
+  {q:"A la transmisión zoonótica directa también se le denomina:",answers:["Spillover","Spillewer","Transmisión interanimal","Transmisión intrazoonótica"],correct:0},
+  {q:"La HIPOPNEA es toda disminución del flujo basal aéreo superior al:",answers:["50%","30%","70%","10%"],correct:0},
+  {q:"En la enfermedad tromboembólica venosa el riesgo de embolia pulmonar es mayor en:",answers:["Los primeros días de formarse el trombo","En los últimos días de formarse el trombo","Al principio y al final de formarse el trombo","Nunca hay riesgo"],correct:0},
+  {q:"Qué signo es característico en el síndrome mediastínico posterior:",answers:["Roja y amarilla son verdaderas","Disfagia","Disnea","Dolor interescapular"],correct:0},
+  {q:"Cuál es el derrame pleural más frecuente:",answers:["Trasudativo","Trasehepático","Exudativo","Hepático"],correct:0},
+  {q:"Qué son los Criterios de Jones y Brosseau:",answers:["Condiciones para demostrar la transmisión de SARS-CoV-2 mediante aerosoles","Condiciones para demostrar la transmisión de SARS-CoV-2 mediante contacto","Condiciones para demostrar la transmisión de SARS-CoV-2 mediante animales","Condiciones para demostrar la transmisión de SARS-CoV-2 en general"],correct:0},
+  {q:"Los anticuerpos IgM en la infección de Covid 19 aparecen a los 15 días:",answers:["Falso","Verdadero"],correct:0},
+  {q:"La neumonía micótica es causada por el hongo Pneumocystis jirovecii. Relacionado con:",answers:["SIDA","TUBERCULOSIS","ESCLEROSIS MÚLTIPLE","COVID 19"],correct:0},
+  {q:"En el patrón ventilatorio obstructivo:",answers:["FEV1 disminuido","FEV1/FVC >70%","FVC aumentado","FEV1 aumentado"],correct:0},
+  {q:"La radiografía torácica en nido de golondrina es típica de:",answers:["Bronquiectasia","Neumonía","Enfisema","Atelectasia"],correct:0},
+  {q:"Una compliance disminuida es frecuente en la enfermedad restrictiva pulmonar:",answers:["Verdadero","Falso"],correct:0},
+  {q:"Cuando un paciente acude a nuestra consulta y nos comenta que el médico le ha prescrito surfactante pulmonar:",answers:["Significa que puede tener atelectasia","Significa que puede tener neumonía","Significa que puede tener enfisema","Significa que puede tener insuficiencia respiratoria"],correct:0},
+  {q:"Si en una espirometría le digo al paciente que coja todo el aire y lo expulse hasta quedarse sin nada en el menor tiempo:",answers:["CVF","VMM","CV","CPT"],correct:0},
+  {q:"A la máxima cantidad de aire que se queda dentro de los pulmones después de una inspiración máxima se le denomina:",answers:["Capacidad pulmonar total","Capacidad inspiratoria","Capacidad funcional residual","Capacidad vital"],correct:0},
+  {q:"En una cirugía abdominal qué respiración en los primeros días se le prescribirá al paciente",answers:["Diafragmática","Costal superior","Costal inferior","Costodiafragmática"],correct:1},
+  {q:"¿Qué define un tórax longilíneo?",answers:["Largo y cilíndrico","Forma en barril","Corto y ancho","Paralítico"],correct:0},
+  {q:"¿Cuál tórax tiene eje transversal mayor?",answers:["Brevílíneo","En quilla","Longilíneo","Paralítico"],correct:0},
+  {q:"¿Qué describe el tórax enfisematoso?",answers:["Posición inspiratoria","Asimetría clavicular","Cifosis marcada","Colapso esternal"],correct:0},
+  {q:"Completa: a los 20 años hay...",answers:["18-20 r/m","16 r/m","26 r/m","44 r/m"],correct:0},
+  {q:"La inspiración dura menos que la espiración",answers:["Verdadero","Falso"],correct:0},
+  {q:"¿Qué capas tiene la pleura?",answers:["Parietal y Visceral","Parietal y Meníngea","Subcutánea y Visceral","Meníngea y Visceral"],correct:0},
+  {q:"¿Qué hacen los cilios respiratorios?",answers:["Retienen partículas","Producen CO2","Bombean oxígeno","Forman surfactante"],correct:0},
+  {q:"¿Cuántos alvéolos hay aproximadamente?",answers:["300 millones","3 millones","30 mil","3 mil"],correct:0},
+  {q:"Completa: bronquiolos carecen de...",answers:["Cartílago hialino","Epitelio total","Músculo liso","Capilares"],correct:0},
+  {q:"¿Qué células producen surfactante?",answers:["Tipo II","Macrófagos","Cilios","Tipo I"],correct:0},
+  {q:"¿Cuáles son músculos espiratorios forzados?",answers:["Pared abdominal e intercostales internos","Intercostales internos y diafragma activo","Diafragma activo y pared abdominal","Escalenos y ECOM"],correct:0},
+  {q:"¿En qué arteria se pincha frecuentemente?",answers:["Radial","Carótida","Subclavia","Safena"],correct:0},
+  {q:"¿Cuál es la saturación normal más baja?",answers:["90%","85%","95%","80%"],correct:0},
+  {q:"Si durante la respiración normal la espiración dura más que la inspiración, ¿cuál es la relación más aproximada?",answers:["1:3","1:1","1:2","2:1"],correct:0},
+  {q:"Un paciente realiza una espiración forzada. ¿Qué grupo muscular participa principalmente?",answers:["Músculos abdominales","Diafragma exclusivamente","Intercostales externos","ECOM"],correct:0},
+  {q:"Si la presión alveolar es mayor que la presión atmosférica, ¿qué ocurre?",answers:["Salida de aire de los pulmones","Entrada de aire a los pulmones","No hay flujo de aire","Colapso pulmonar inmediato"],correct:0},
+  {q:"¿Cuál de los siguientes volúmenes permanece en los pulmones tras una espiración forzada?",answers:["Volumen residual","Volumen corriente","Volumen de reserva inspiratoria","Capacidad Vital"],correct:0},
+  {q:"¿Qué factor regula principalmente la ventilación pulmonar en condiciones normales?",answers:["Centro respiratorio y estímulos neuronales","Tamaño pulmonar","Presión atmosférica","Elasticidad de la pleura"],correct:0},
+  {q:"La disminución de la difusión de monóxido de carbono es indicativa principalmente de:",answers:["Enfisema o fibrosis pulmonar","Asma","Bronquitis aguda","Hiperventilación"],correct:0},
+  {q:"Un paciente FEV1 disminuido (<80%), FVC normal (≥80%) y cociente FEV1/FVC del 60%. ¿Cuál es la interpretación correcta?",answers:["Patrón obstructivo","Patrón restrictivo puro","Patrón mixto","Espirometría normal"],correct:0},
+  {q:"Un paciente FEV1 y FVC disminuidos (<80%), pero la relación FEV1/FVC normal. ¿Qué mecanismo patológico predomina?",answers:["Disminución de la distensibilidad pulmonar","Aumento de la resistencia de las vías aéreas","Hiperventilación alveolar","Aumento del volumen residual"],correct:0},
+  {q:"Durante una espirometría, un paciente realiza una espiración forzada de menos de 4 segundos. ¿Qué implicación tiene?",answers:["La prueba no es técnicamente válida","La prueba es válida si el FEV1 es correcto","Indica patrón obstructivo","Solo afecta al cálculo de la FVC"],correct:0},
+  {q:"Un paciente presenta hipoxemia con PaCO₂ elevada. ¿Cuál es el mecanismo más probable?",answers:["Hipoventilación global","Hiperventilación alveolar","Aumento de difusión de gases","Disminución del espacio muerto"],correct:0},
+  {q:"Un paciente con enfermedad pulmonar presenta una prueba broncodilatadora positiva. ¿Qué conclusión es más adecuada?",answers:["Existe reversibilidad de la obstrucción","Existe restricción pulmonar irreversible","Se confirma fibrosis pulmonar","La función pulmonar es normal"],correct:0},
+  {q:"¿Cuál de los siguientes mecanismos explica mejor la hipoxemia con PaCO₂ normal?",answers:["Cortocircuito o alteración V/Q","Hipoventilación alveolar","Aumento de la ventilación","Disminución del metabolismo celular"],correct:0},
+  {q:"En la insuficiencia respiratoria, ¿qué combinación define mejor el fallo del sistema?",answers:["Hipoxemia + hipercapnia","Hipoxemia + alcalosis metabólica","Hipercapnia aislada","Hipoxemia con pH normal siempre"],correct:0},
+  {q:"Un paciente con apnea del sueño presenta un índice apnea-hipopnea (IAH) de 18/hora. ¿Cómo se interpreta?",answers:["Patológico","Normal","Sin relevancia clínica","Solo significativo en ancianos"],correct:0},
+  {q:"Un paciente con tos productiva crónica, esputo purulento y hemoptisis leve probablemente presenta:",answers:["Bronquiectasia","Asma bronquial","Enfisema pulmonar","Neumotórax"],correct:0},
+  {q:"¿Cuál es el mecanismo fisiopatológico clave en las bronquiectasias?",answers:["Destrucción de la pared bronquial con dilatación irreversible","Fibrosis intersticial difusa","Vasoconstricción pulmonar","Edema alveolar"],correct:0},
+  {q:"Episodios recurrentes de disnea, sibilancias y opresión torácica desencadenados por alérgenos. ¿Mecanismo inmunológico?",answers:["Respuesta mediada por IgE","Activación de neutrófilos","Déficit de macrófagos","Activación del complemento"],correct:0},
+  {q:"Un paciente fumador crónico presenta disnea progresiva y atrapamiento aéreo. ¿Qué mecanismo explica mejor este hallazgo?",answers:["Disminución de la elasticidad del parénquima","Aumento de la elasticidad pulmonar","Aumento del aclaramiento mucociliar","Broncodilatación persistente"],correct:0},
+  {q:"Se define bronquitis crónica cuando existe:",answers:["Tos productiva ≥3 meses/año durante ≥2 años","Tos seca durante 1 mes","Tos productiva ≥2 meses/año durante ≥2 años","Tos productiva >2 meses/año durante >2 años"],correct:0},
+  {q:"Un paciente con EPOC avanzado desarrolla insuficiencia cardiaca derecha. ¿Cuál es la causa más probable?",answers:["Hipoxemia crónica mantenida","Hipercapnia aguda","Broncoespasmo reversible","Infección bacteriana"],correct:0},
+  {q:"¿Qué característica diferencia al asma de la EPOC?",answers:["Reversibilidad de los síntomas","Presencia de tos","Obstrucción al flujo aéreo","Producción de moco"],correct:0},
+  {q:"PCR positiva para COVID 20 días después del inicio de síntomas, pero sin clínica. ¿Cuál es la interpretación adecuada?",answers:["Detección de ARN viral sin capacidad infectiva","Infección activa con alta contagiosidad","Falso positivo de la prueba","Reinfección por otra variante"],correct:0},
+  {q:"Un paciente desarrolla hipoxemia progresiva y fallo multiorgánico en COVID-19. ¿Cuál es el mecanismo fisiopatológico?",answers:["Tormenta de citoquinas con daño microvascular","Inhibición de linfocitos B","Replicación viral localizada sin respuesta inmune","Vasoconstricción pulmonar severa"],correct:0},
+  {q:"¿Cuál de los siguientes hallazgos apoya transmisión aérea del SARS-CoV-2?",answers:["Aerosoles con microorganismos viables y efectivos","Presencia de virus en superficies","Exclusiva transmisión por gotas grandes","Ausencia de virus en superficies"],correct:0},
+  {q:"Un paciente presenta serología con IgM negativa e IgG positiva frente a SARS-CoV-2. ¿Qué indica esto?",answers:["Infección pasada con posible inmunidad","Fase muy precoz de infección","Falso positivo inevitable","Infección activa altamente contagiosa"],correct:0},
+  {q:"En un paciente con COVID-19, la aparición de eventos trombóticos se explica principalmente por:",answers:["Activación inmune y estado de hipercoagulabilidad","Deshidratación","Déficit de factores de coagulación","Inhibición inmune con hipocoagulabilidad"],correct:0},
+  {q:"Paciente joven tiene ictus isquémico sin factores de riesgo en contexto de COVID-19. ¿Cuál es el mecanismo MÁS probable?",answers:["Estado protrombótico mediado por inflamación","Hipertensión mantenida","Vasculitis infecciosa directa","Embolia pulmonar"],correct:0},
+  {q:"¿Cuál de los siguientes mecanismos explica la hipoxemia en COVID-19 grave?",answers:["Alteración de la microcirculación pulmonar y trombosis","Hipoventilación central","Derrame pleural masivo","Broncoconstricción reversible"],correct:0},
+  {q:"Paciente con síntomas persistentes meses después de COVID-19 con disnea progresiva. ¿Cuál es el mecanismo MÁS probable?",answers:["Fibrosis pulmonar postinflamatoria","Infección viral activa persistente","Broncoespasmo reversible","Neumonía bacteriana crónica"],correct:0},
+  {q:"Un paciente hospitalizado desarrolla neumonía tras 72 horas de ingreso. ¿Cuál es la característica definitoria del cuadro?",answers:["Neumonía nosocomial","Etiología viral predominante","Aparición antes de 48 h","Siempre secundaria a aspiración"],correct:0},
+  {q:"Paciente con disnea progresiva, crepitantes y acropaquias. ↑CPT, ↓CV. ¿Cuál es el diagnóstico más probable?",answers:["Enfermedad intersticial pulmonar","EPOC","Asma","Bronquiectasia"],correct:0},
+  {q:"Un paciente con fibrosis pulmonar avanzada desarrolla hipertensión pulmonar. ¿Cuál es la causa más probable?",answers:["Hipoxia crónica y remodelado vascular","Aumento del gasto cardíaco","Vasodilatación pulmonar","Derrame pleural"],correct:0},
+  {q:"Trabajador de la construcción con disnea progresiva y exposición a polvo mineral. ¿Qué diagnóstico es más probable?",answers:["Fibrosis pulmonar secundaria (asbestosis)","Asma ocupacional","Neumonía bacteriana","Tuberculosis primaria"],correct:0},
+  {q:"Paciente fumador presenta ptosis, miosis y anhidrosis facial ipsilateral. ¿Cuál es el diagnóstico más probable?",answers:["Tumor de Pancoast","Neumonía intersticial","Tuberculosis","Bronquitis crónica"],correct:0},
+  {q:"Paciente con tuberculosis presenta síntomas insidiosos de semanas de evolución. ¿Qué característica explica la evolución?",answers:["Multiplicación lenta del microorganismo","Replicación viral rápida","Respuesta inmune inmediata","Destrucción alveolar aguda"],correct:0},
+  {q:"Paciente 68 años, COVID-19 ingresa por disnea progresiva. A los 7 días: hipoxemia severa y fallo multiorgánico. Presenta:",answers:["Activación inmune innata + tormenta citoquinas + CID + fallo multiorgánico","Replicación viral + apoptosis + fibrosis","Inhibición inmune + sobreinfección bacteriana + shock séptico","Activación linfocitaria + producción de IgG + daño tisular"],correct:0},
+  {q:"Un EPOC desarrolla hipertensión pulmonar crónica. ¿Cuál es la secuencia más probable que conduce al cor pulmonale?",answers:["Aumento de la resistencia vascular pulmonar, dilatación del VD, insuficiencia VD","Disminución de la presión venosa + hipertrofia del VI + edema pulmonar","Vasodilatación pulmonar + aumento del gasto cardíaco + insuficiencia mitral","Hipotensión arterial, reducción del retorno venoso, shock cardiogénico"],correct:0},
+  {q:"Paciente con disnea progresiva, síncope, dolor torácico subesternal, hipertensión pulmonar severa. ¿Es avanzada si existe?",answers:["Descenso del gasto cardíaco y resistencia vascular pulmonar fija","Gasto cardíaco conservado y respuesta a vasodilatadores","Reducción permanente de la resistencia vascular pulmonar","Hipertrofia ventricular izquierda aislada"],correct:0},
+  {q:"Un paciente inmovilizado tras cirugía ortopédica desarrolla disnea con dolor pleurítico. ¿Cuál es el origen más probable?",answers:["Venas profundas de miembros inferiores","Aurícula izquierda","Sistema arterial pulmonar","Venas superficiales de miembros inferiores"],correct:0},
+  {q:"Un paciente con sospecha de tromboembolismo pulmonar, ¿qué combinación clínica aumenta más la probabilidad diagnóstica?",answers:["Disnea súbita, síncope e hipotensión brusca","Tos productiva crónica y bradicardia","Fiebre prolongada y hematuria","Hipertensión arterial y ortopnea progresiva"],correct:0},
+  {q:"Un derrame pleural secundario a insuficiencia cardiaca congestiva se clasifica como:",answers:["Transudativo por aumento de presión vascular","Exudativo por inflamación pleural","Quiloso por obstrucción linfática","Hemorrágico por daño vascular"],correct:0},
+  {q:"Un paciente con embolia pulmonar presenta atelectasias a las 48 horas. ¿Qué mecanismo explica mejor este fenómeno?",answers:["Pérdida de surfactante y constricción de la zona afecta","Hiperproducción de surfactante","Aumento del retorno venoso pulmonar","Hipersecreción bronquial secundaria"],correct:0},
+  {q:"¿Cuál de las siguientes situaciones orienta más hacia un derrame pleural exudativo en lugar de transudativo?",answers:["Pleuritis tuberculosa y tumores","Insuficiencia cardiaca congestiva","Cirrosis hepática con hipertensión portal","Ninguna es correcta"],correct:0},
+  {q:"Paciente con neumotórax a tensión presenta hipotensión progresiva. ¿Cuál es la explicación fisiopatológica más razonable?",answers:["Compresión mediastínica con reducción del retorno venoso","Incremento del retorno venoso al corazón derecho","Disminución de la presión intratorácica","Vasodilatación pulmonar masiva"],correct:0},
+  {q:"La joroba de Hampton se presenta en:",answers:["Embolismo pulmonar","Derrame pleural","Atelectasia","Enfisema"],correct:0}
+];
+
+const WUOLAH1_QUESTIONS = [
+  // --- FINALES AMQ3 ---
+  {q:"Las metástasis cerebrales más frecuentes son:",answers:["Osteosarcoma, melanoma y cáncer pulmonar","Cáncer de mama, cáncer de páncreas, cáncer de colon y cáncer pulmonar","Cáncer pulmonar, cáncer de mama, melanoma y cáncer de riñón","Cáncer de estómago, cáncer pulmonar, melanoma y linfomas"],correct:2},
+  {q:"La triada de Cushing se caracteriza por:",answers:["Hipotensión, bradicardia y alteraciones respiratorias","Hipertensión, bradicardia y alteraciones respiratorias","Hipertensión, taquicardia, sin alteraciones respiratorias","Hipertensión, taquicardia y alteraciones respiratorias"],correct:1},
+  {q:"El neurotransmisor más afectado en la enfermedad del Alzheimer es:",answers:["Acetilcolina","Glutamato","Somatostatina","A y C son verdaderas"],correct:3},
+  {q:"La enfermedad de Bisgwanger:",answers:["Es una demencia de origen metabólico","Es una demencia de origen vascular","Es una demencia de origen infeccioso","Es una demencia de origen degenerativo"],correct:1},
+  {q:"En la parálisis de Duchene el brazo se mantiene en supinación:",answers:["Verdadero","Falso"],correct:1},
+  {q:"En la miastenia gravis:",answers:["Hay una afectación del III par craneal","Hay una afectación del II par craneal","Hay una afectación del VI par craneal","Hay una afectación del V par craneal"],correct:0},
+  {q:"En la parálisis de Duchene ERB:",answers:["Existe supinación del antebrazo","Existe flexión de codo","Existe pronación del antebrazo","Existe rotación externa del hombro"],correct:2},
+  {q:"Los dos tercios anteriores de la lengua sensitivamente están inervados por:",answers:["Hipogloso","Glosofaríngeo","Trigémino","Facial"],correct:3},
+  {q:"Si al percutir con el diapasón y colocarlo en la mastoides lo oímos más que al lado del oído es porque:",answers:["Existe lesión de la vía ósea","Existe lesión de la vía aérea","Existe lesión de la vía aérea y ósea","No existe lesión, es normal"],correct:1},
+  {q:"Si vemos a un paciente en la calle caminar con la cabeza inclinada de forma constante podemos pensar:",answers:["Afectación del IV par craneal","Afectación del X par craneal","Afectación del III par craneal","Afectación del VI par craneal"],correct:0},
+  {q:"Si hay una fractura del etmoides hay riesgo de ageusia:",answers:["Verdadero","Falso"],correct:1},
+  {q:"En el enclaustramiento el paciente no puede hacer movimientos por lesión de las vías corticobulbares y corticoespinales:",answers:["Estando el SRAA intacto","Estando el SRAA dañado","La causa más frecuente es el infarto o hemorragia protuberancial","A y C son correctas"],correct:3},
+  {q:"La motoneurona alfa:",answers:["Se ramifica muchas veces antes de entrar en el músculo","La estimulación de una fibra estimula a varios cientos de fibras musculares","A y B son verdaderas","A y B son falsas"],correct:2},
+  {q:"En el reflejo miotático inverso:",answers:["Al contraer el agonista se relaja el antagonista","Al aumentar la tensión del tendón se inhibe la contracción muscular","Al aumentar la longitud de la fibra muscular provoca una contracción","Ninguna es correcta"],correct:1},
+  {q:"Las bandas oligoclonales de IgG en el LCR son típicas de:",answers:["ELA","ECM","Meningitis","Coreoatetosis"],correct:1},
+  {q:"A la máxima cantidad de aire que se queda dentro de los pulmones después de una inspiración máxima se le denomina:",answers:["Capacidad inspiratoria","Capacidad funcional residual","Capacidad pulmonar total","Capacidad vital"],correct:2},
+  {q:"Si en una espirometría le digo al paciente que coja todo el aire y lo expulse hasta quedarse sin nada en el menor tiempo:",answers:["VMM","CV","CPT","CVF"],correct:3},
+  {q:"Cuando un paciente acude a nuestra consulta y nos comenta que el médico le ha prescrito surfactante pulmonar:",answers:["Significa que puede tener atelectasia","Significa que puede tener enfisema","Significa que puede tener neumonía","Significa que puede tener insuficiencia respiratoria"],correct:0},
+  {q:"Una compliance disminuida es frecuente en la enfermedad restrictiva pulmonar:",answers:["Verdadero","Falso"],correct:0},
+  {q:"La radiografía torácica en nido de golondrina es típica de:",answers:["Neumonía","Enfisema","Bronquiectasia","Atelectasia"],correct:2},
+  {q:"En el patrón ventilatorio obstructivo:",answers:["FEV1 disminuido","FEV1/FVC > 70%","FVC aumentado","FEV1 aumentado"],correct:0},
+  {q:"La neumonía micótica está causada por el hongo Pneumocystis jiroveci. Este está relacionado con:",answers:["Tuberculosis","Esclerosis múltiple","SIDA","Covid 19"],correct:2},
+  {q:"Los anticuerpos IgM en la infección de Covid 19 aparecen a los 15 días:",answers:["Verdadero","Falso"],correct:1},
+  {q:"¿Qué son los criterios de Jones y Brosseau?",answers:["Condiciones para demostrar la transmisión de SARS-CoV-2 mediante contacto","Condiciones para demostrar la transmisión de SARS-CoV-2 mediante aerosoles","Condiciones para demostrar la transmisión de SARS-CoV-2 mediante animales","Condiciones para demostrar la transmisión de SARS-CoV-2 en general"],correct:1},
+  {q:"¿Cuál es el derrame pleural más frecuente?",answers:["Trashepático","Exudativo","Hepático","Trasudativo"],correct:3},
+  {q:"¿Qué signo es característico en el síndrome mediastínico posterior?",answers:["Disfagia","Disnea","Dolor interescapular","A y C son correctas"],correct:3},
+  {q:"En la enfermedad tromboembólica venosa el riesgo de embolia pulmonar es mayor en:",answers:["En los últimos días de formarse el trombo","En los primeros días de formarse el trombo","Al principio y al final de formarse el trombo","Nunca hay riesgo"],correct:1},
+  {q:"La hipopnea es toda disminución del flujo basal aéreo superior al:",answers:["50%","30%","70%","10%"],correct:0},
+  {q:"A la transmisión zoonótica directa se le denomina:",answers:["Spillover","Spillewer","Transmisión interanimal","Transmisión intrazoonótica"],correct:0},
+  // --- REPASO AMQ3 ---
+  {q:"El sistema nervioso central: las neuroglías suponen un número mayor que las neuronas:",answers:["9 veces más","No es cierto, ambas están en número similar","20 veces más","Las neuronas son más numerosas que las glías"],correct:0},
+  {q:"¿Qué es la prosopagnosia?",answers:["Incapacidad para autoconocerse","Incapacidad para reconocer objetos con el tacto","Incapacidad para identificar los rostros","Incapacidad de evocar recuerdos"],correct:2},
+  {q:"Los gestos emocionales son controlados por:",answers:["Lóbulo temporal","Lóbulo occipital","Lóbulo parietal","Lóbulo frontal"],correct:3},
+  {q:"Los actos reflejos son controlados por:",answers:["Corteza cerebral","Bulbo raquídeo","Cerebelo","Diencéfalo"],correct:1},
+  {q:"Los receptores cutáneos encargados de percibir la textura son los:",answers:["Corpúsculos de Vater-Paccini","Discos táctiles de Merkel","Corpúsculos de Meissner","Manguitos pilosos"],correct:1},
+  {q:"En una sinapsis química:",answers:["No hay retraso sináptico liberando neurotransmisores","Hay retraso sináptico siendo unidireccional","Hay retraso sináptico siendo bidireccional","No hay retraso sináptico siendo bidireccional"],correct:1},
+  {q:"La sinapsis eléctrica utiliza neurotransmisores:",answers:["Verdadero","Falso"],correct:1},
+  {q:"El área de la cabeza se encuentra representado en el lóbulo frontal:",answers:["En la parte más superior del giro precentral","En la parte más inferior del giro precentral","En la parte media del giro precentral","En la parte más medial del hemisferio, sobre el cuerpo calloso"],correct:1},
+  {q:"El transporte en el interior del axón puede ser:",answers:["Centrífugo: ocurre desde el soma neuronal hacia el final del axón","Centrípeto: ocurre desde los botones terminales hacia el soma neuronal","A y B son verdaderas","A y B son falsas"],correct:2},
+  {q:"El líquido cefalorraquídeo circula entre:",answers:["Aracnoides y piamadre","Duramadre y piamadre","Duramadre y aracnoides","Paquimeninge y aracnoides"],correct:0},
+  {q:"El lóbulo que está implicado en la memoria a muy corto plazo es:",answers:["Lóbulo temporal","Lóbulo parietal","Lóbulo occipital","Lóbulo frontal"],correct:1},
+  {q:"La elaboración y regulación de las respuestas motoras haciéndolas conscientes corresponde al:",answers:["Nivel cortical","Nivel medular","Nivel subcortical","Nivel laberíntico"],correct:0},
+  {q:"La única función del axón es la conducción del impulso nervioso:",answers:["Verdadero","Falso"],correct:1},
+  {q:"Las neuronas presentes en ganglio de la raíz posterior son:",answers:["Bipolares","Cuatripolares","Unipolares","Multipolares"],correct:2},
+  {q:"Las neuronas se localizan en:",answers:["Encéfalo","Ganglios nerviosos","Médula espinal","Encéfalo, médula espinal y ganglios nerviosos"],correct:3},
+  {q:"La sustancia de Nissl en la neurona:",answers:["Sintetiza y transporta proteínas en el interior de la célula","Sintetiza y transporta proteínas en el axón de la célula","Sintetiza y transporta moléculas en el interior de la célula","Sintetiza y transporta proteínas en el botón terminal de la célula"],correct:0},
+  {q:"En una sinapsis química se le denomina zona activa:",answers:["A la dendrita","A la zona de liberación de los neurotransmisores","Al botón postsináptico","A la zona de recepción de los neurotransmisores"],correct:1},
+  {q:"¿Cuál es el neurotransmisor que retiene la información y la almacena?",answers:["Dopamina","Noradrenalina","Acetilcolina","Serotonina"],correct:2},
+  {q:"Cuando a una persona le gusta relacionarse con los demás y tener mucha vida social, ¿qué neurotransmisor interviene?",answers:["Dopamina","Acetilcolina","Ácido gamma aminobutírico","Noradrenalina"],correct:3},
+  {q:"¿Qué es la densidad postsináptica?",answers:["Donde se encuentran los receptores de los neurotransmisores","El cuerpo del botón postsináptico","Donde se libera el neurotransmisor","El espacio entre botón presináptico y postsináptico"],correct:0},
+  {q:"¿Cuál es el potencial de reposo de una neurona?",answers:["-60 mV","-70 mV","-50 mV","-80 mV"],correct:1},
+  {q:"¿Qué neuroglia tiene función fagocitaria?",answers:["Astrocito","Microglía","Oligodendrocito","Células de Schwann"],correct:1},
+  {q:"Los órganos tendinosos de Golgi se encuentran en los tendones y responden a niveles relativamente altos de tensión:",answers:["Verdadero","Falso"],correct:0},
+  {q:"Señala la respuesta verdadera:",answers:["La sustancia blanca son las fibras nerviosas","La sustancia gris son las células nerviosas","La sustancia blanca son las fibras y somas","A y B son correctas"],correct:3},
+  {q:"La zona rostral en el sistema nervioso pertenece:",answers:["A la zona más inferior del SN","A la zona más posterior del SN","A la zona más superior del SN","A la zona más anterior del SN"],correct:2},
+  {q:"El secretor del LCR en el sistema nervioso es:",answers:["Tercer ventrículo","Plexo coroideo","Cuarto ventrículo","Ventrículo lateral"],correct:1},
+  {q:"El hemisferio izquierdo prefiere:",answers:["Dibujar, escuchar, ver imágenes","Prefiere instrucciones no verbales","Conversar, escribir, investigar","Resolver los problemas con intuición"],correct:2},
+  {q:"Cuando desviamos la mirada con ambos ojos hacia un mismo lado activamos el campo ocular del lóbulo:",answers:["Occipital","Frontal","Temporal","Parietal"],correct:1},
+  {q:"La corteza somatosensorial primaria se encuentra en:",answers:["Lóbulo parietal","Lóbulo frontal","Lóbulo occipital","Lóbulo temporal"],correct:0},
+  {q:"El hipocampo y la amígdala forman parte del área límbica siendo sus funciones:",answers:["Hipocampo: memoria y emociones. Amígdala: entendimiento del lenguaje","Hipocampo: memoria y emociones. Amígdala: percepción olfato","Amígdala: memoria y emociones. Hipocampo: percepción olfato","Hipocampo: percepción auditiva. Amígdala: entendimiento del lenguaje"],correct:1},
+  {q:"El test de Klein es un test para valorar la integridad de:",answers:["Arteria vertebral","Carótida interna","Arteria basilar","Arteria cerebral media"],correct:0},
+  {q:"El drenaje de los senos venosos y venas yugulares se realiza a través:",answers:["Del agujero rasgado posterior entre occipucio y parietal","Del agujero rasgado anterior entre occipucio y parietal","Del agujero rasgado posterior entre occipucio y temporal","Del agujero rasgado anterior entre occipucio y temporal"],correct:2},
+  {q:"En la fase de estupor el paciente:",answers:["Responde a estímulos verbales","El paciente no responde a ningún estímulo","El paciente no responde a estímulos dolorosos","Todas son falsas"],correct:3},
+  {q:"La anartria y disartria son frecuentes en:",answers:["La afasia sensitiva de Wernicke","La afasia motora de Brocca","Afasia sensitiva y motora de Brocca","En ninguna de ellas"],correct:1},
+  {q:"Si un paciente tiene agrafía pensaremos en una lesión del lóbulo:",answers:["Temporal","Temporal","Frontal","Occipital"],correct:2},
+  {q:"La afonía puede deberse a una patología subyacente en:",answers:["Lóbulo frontal y propia cuerda vocal","Lóbulo parietal","Lóbulo temporal y propia cuerda vocal","Lóbulo occipital y propia cuerda vocal"],correct:0},
+  {q:"La desmielinización progresiva es característica de:",answers:["Demencia senil","Esclerosis múltiple","Demencia por cuerpos de Lewy","Parkinson"],correct:1},
+  {q:"El primer par craneal es:",answers:["Óptico","Patético","Ocular motor externo","Olfatorio"],correct:3},
+  {q:"El X par craneal corresponde a:",answers:["Vago","Glosofaríngeo","Patético","Hipogloso"],correct:0},
+  {q:"Los músculos de la expresión facial son controlados por:",answers:["V par","X par","VII par","I par"],correct:2},
+  {q:"El equilibrio y la audición son controlados por:",answers:["V par","VIII par","VII par","XII par"],correct:1},
+  {q:"El nervio espinal inerva:",answers:["Músculos faciales","ECOM y músculos faciales","Trapecio y músculos faciales","Trapecio y ECOM"],correct:3},
+  {q:"El encargado de la motricidad de la lengua es:",answers:["XII par craneal","IX par craneal","X par craneal","V par craneal"],correct:0},
+  {q:"El reflejo de la arcada pertenece:",answers:["Nervio hipogloso","Nervio trigémino","Nervio vago","Nervio glosofaríngeo"],correct:3},
+  {q:"El X y XI par craneal salen por el mismo agujero craneal:",answers:["Verdadero","Falso"],correct:0},
+  {q:"La estructura anatómica que une ambos hemisferios cerebrales es:",answers:["Cisura central","Diencéfalo","Cuerpo calloso","Circunvoluciones de la corteza cerebral"],correct:2},
+  {q:"La decusación de las fibras nerviosas se produce a nivel:",answers:["Diencéfalo","Corteza cerebral","Mesencéfalo","Bulbo raquídeo"],correct:3},
+  {q:"En general, las neuronas responsables de transmitir las aferencias al sistema nervioso son:",answers:["Bipolares","Multipolares","Unipolares","Tripolares"],correct:0},
+  {q:"4 conexinas forman una conexona en la sinapsis eléctrica:",answers:["Verdadero","Falso"],correct:1},
+  {q:"La función de los astrocitos es:",answers:["Formar la vaina de mielina en el SNP","Actuar frente a la inflamación y daño en el tejido nervioso","Formar la vaina de mielina en el SNC","Formar la barrera hematoencefálica"],correct:3}
+];
+
+const BASE_KAHOOTS = [
+  { id: 1, name: 'NEURO 1', questions: NEURO1_QUESTIONS },
+  { id: 2, name: 'RESPI 1', questions: RESPI1_QUESTIONS },
+  { id: 3, name: 'WUOLAH 1', questions: WUOLAH1_QUESTIONS }
+];
+</script>
+<script>
+// ====================================================
+// CONFIG
+// ====================================================
+const LS_KEY = 'medquiz_kahoots_v2';
+const ADMIN_PASS = 'medquiz2024'; // Cambia esto por tu contraseña
+
+// ====================================================
+// STATE
+// ====================================================
+let isAdmin = false;
+let kahoots = [];
+let currentKahootId = null;
+// Game state
+let queue = [], retryQueue = [], currentIdx = 0;
+let correctCount = 0, wrongCount = 0, totalStarted = 0;
+let answered = false;
+const IC = ['ic-a','ic-b','ic-c','ic-d'];
+const IE = ['🔴','🔷','🟡','🟩'];
+
+// ====================================================
+// STORAGE
+// ====================================================
+// Kahoots base — siempre disponibles en cualquier dispositivo
+
+
+function loadData() {
+  const raw = localStorage.getItem(LS_KEY);
+  if (raw) {
+    const saved = JSON.parse(raw);
+    // Merge: base kahoots updated with any local edits, plus any extra kahoots added locally
+    const baseIds = BASE_KAHOOTS.map(k => k.id);
+    const extraLocal = saved.filter(k => !baseIds.includes(k.id));
+    // For base kahoots, use saved version if exists (preserves local edits/renames), else use base
+    kahoots = BASE_KAHOOTS.map(base => {
+      const localVersion = saved.find(k => k.id === base.id);
+      return localVersion || base;
+    }).concat(extraLocal);
+  } else {
+    kahoots = BASE_KAHOOTS.map(k => ({...k}));
+    saveData();
   }
-  const cq=queue[currentIdx];
-  const pct=Math.round((correctCount/totalStarted)*100);
-  document.getElementById('progressFill').style.width=pct+'%';
-  document.getElementById('progressPct').textContent=pct+'%';
-  document.getElementById('progressText').textContent=`Correctas: ${correctCount} de ${totalStarted}`;
-  document.getElementById('statCorrect').textContent=correctCount;
-  document.getElementById('statWrong').textContent=wrongCount;
-  document.getElementById('statRemaining').textContent=Math.max(0,totalStarted-correctCount);
-  document.getElementById('questionText').textContent=cq.q;
-  document.getElementById('retryBadge').style.display=cq.isRetry?'inline-block':'none';
-  const grid=document.getElementById('answersGrid');
-  grid.innerHTML='';
-  cq.answers.forEach((ans,i)=>{
-    const btn=document.createElement('button');
-    btn.className='answer-btn';
-    btn.textContent=ans;
-    btn.onclick=()=>selectAnswer(btn,i===cq.correctIdx,cq.answers[cq.correctIdx],cq);
+}
+function saveData() { localStorage.setItem(LS_KEY, JSON.stringify(kahoots)); }
+function getKahoot(id) { return kahoots.find(k => k.id === id); }
+
+// ====================================================
+// ADMIN
+// ====================================================
+function toggleAdmin() {
+  if (isAdmin) {
+    isAdmin = false;
+    updateAdminUI();
+    showToast('Modo lectura activado');
+    return;
+  }
+  document.getElementById('adminPassInput').value = '';
+  document.getElementById('adminPassErr').style.display = 'none';
+  openModal('modalAdminLogin');
+  setTimeout(() => document.getElementById('adminPassInput').focus(), 300);
+}
+function checkAdminPass() {
+  const v = document.getElementById('adminPassInput').value;
+  if (v === ADMIN_PASS) {
+    isAdmin = true;
+    closeModal('modalAdminLogin');
+    updateAdminUI();
+    showToast('✅ Modo edición activado');
+  } else {
+    document.getElementById('adminPassErr').style.display = 'block';
+  }
+}
+function updateAdminUI() {
+  renderHome();
+}
+
+// ====================================================
+// HOME
+// ====================================================
+function renderHome() {
+  const grid = document.getElementById('kahootGrid');
+  grid.innerHTML = '';
+  kahoots.forEach(k => {
+    const card = document.createElement('div');
+    card.className = 'kahoot-card';
+    card.innerHTML = `
+      ${isAdmin ? `<button class="kedit-btn" onclick="event.stopPropagation();openEdit(${k.id})">✏️ Editar</button>` : ''}
+      <div class="kname">${k.name}</div>
+      <div class="kcount">${k.questions.length} preguntas</div>
+      <button class="kplay-btn" onclick="event.stopPropagation();startGame(${k.id})">▶ JUGAR</button>
+    `;
+    grid.appendChild(card);
+  });
+  if (isAdmin) {
+    const addCard = document.createElement('div');
+    addCard.className = 'add-kahoot-card';
+    addCard.onclick = () => openModal('modalNewKahoot');
+    addCard.innerHTML = `<div class="plus">＋</div><div class="lbl">Nuevo kahoot</div>`;
+    grid.appendChild(addCard);
+  }
+}
+
+function goHome() { showScreen('screenHome'); renderHome(); }
+
+// ====================================================
+// EDIT
+// ====================================================
+function openEdit(id) {
+  if (!isAdmin) return;
+  currentKahootId = id;
+  const k = getKahoot(id);
+  document.getElementById('editTitle').textContent = k.name;
+  document.getElementById('editNameInput').value = k.name;
+  renderQList(k);
+  showScreen('screenEdit');
+}
+
+function renderQList(k) {
+  const list = document.getElementById('editQList');
+  document.getElementById('editQCount').textContent = k.questions.length;
+  list.innerHTML = k.questions.map((q, i) => `
+    <div class="q-item">
+      <span class="q-item-num">${i+1}</span>
+      <span class="q-item-text">${q.q}</span>
+      <button class="q-del-btn" onclick="deleteQuestion(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function saveKahootName() {
+  const name = document.getElementById('editNameInput').value.trim();
+  if (!name) return;
+  const k = getKahoot(currentKahootId);
+  k.name = name;
+  document.getElementById('editTitle').textContent = name;
+  saveData();
+  showToast('✅ Nombre guardado');
+}
+
+function addQuestionsToKahoot() {
+  const raw = document.getElementById('addQInput').value.trim();
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed) || !parsed.length) throw new Error();
+    parsed.forEach(item => { if (!item.q || !item.answers || item.correct === undefined) throw new Error(); });
+    const k = getKahoot(currentKahootId);
+    k.questions.push(...parsed);
+    saveData();
+    renderQList(k);
+    document.getElementById('addQInput').value = '';
+    showToast(`✅ ${parsed.length} preguntas añadidas`);
+  } catch(e) {
+    showToast('❌ Formato incorrecto. Pide el texto al asistente.', true);
+  }
+}
+
+function deleteQuestion(idx) {
+  const k = getKahoot(currentKahootId);
+  k.questions.splice(idx, 1);
+  saveData();
+  renderQList(k);
+  showToast('Pregunta eliminada');
+}
+
+function deleteKahoot() {
+  if (!confirm('¿Eliminar este kahoot? Esta acción no se puede deshacer.')) return;
+  kahoots = kahoots.filter(k => k.id !== currentKahootId);
+  saveData();
+  goHome();
+  showToast('Kahoot eliminado');
+}
+
+function createKahoot() {
+  const name = document.getElementById('newKahootName').value.trim();
+  if (!name) return;
+  const newK = { id: Date.now(), name, questions: [] };
+  kahoots.push(newK);
+  saveData();
+  closeModal('modalNewKahoot');
+  document.getElementById('newKahootName').value = '';
+  renderHome();
+  showToast(`✅ Kahoot "${name}" creado`);
+}
+
+// ====================================================
+// GAME
+// ====================================================
+function shuffle(arr) {
+  let a = [...arr];
+  for (let i = a.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+function startGame(id) {
+  currentKahootId = id;
+  const k = getKahoot(id);
+  if (!k.questions.length) { showToast('Este kahoot no tiene preguntas aún', true); return; }
+  queue = shuffle(k.questions).map(q => {
+    const sa = shuffle(q.answers.map((a,i) => ({text:a, isCorrect:i===q.correct})));
+    return {q:q.q, answers:sa, isRetry:false};
+  });
+  retryQueue = []; currentIdx = 0; correctCount = 0; wrongCount = 0;
+  totalStarted = queue.length;
+  showScreen('screenGame');
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  if (currentIdx >= queue.length) {
+    if (retryQueue.length > 0) {
+      queue = queue.concat(shuffle(retryQueue).map(q => ({...q, answers:shuffle(q.answers), isRetry:true})));
+      retryQueue = [];
+    } else { endGame(); return; }
+  }
+  const cq = queue[currentIdx];
+  const pct = Math.round((correctCount/totalStarted)*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressText').textContent = `Correctas: ${correctCount} de ${totalStarted}`;
+  document.getElementById('statCorrect').textContent = correctCount;
+  document.getElementById('statWrong').textContent = wrongCount;
+  document.getElementById('statRemaining').textContent = Math.max(0, totalStarted-correctCount);
+  document.getElementById('questionText').textContent = cq.q;
+  document.getElementById('retryBadge').style.display = cq.isRetry ? 'inline-block' : 'none';
+  const grid = document.getElementById('answersGrid');
+  grid.innerHTML = '';
+  cq.answers.forEach((ans,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.innerHTML = `<div class="ans-icon ${IC[i%4]}">${IE[i%4]}</div><span>${ans.text}</span>`;
+    btn.onclick = () => selectAnswer(btn, ans.isCorrect, ans.text, cq);
     grid.appendChild(btn);
   });
-  document.getElementById('feedbackPanel').className='feedback-panel';
-  document.getElementById('btnContinue').className='btn-continue';
+  const fb = document.getElementById('feedbackPanel');
+  fb.className = 'feedback-panel';
+  document.getElementById('btnContinue').className = 'btn-continue';
 }
-function selectAnswer(btn,isCorrect,correctText,cq){
-  if(answered)return;answered=true;
-  document.querySelectorAll('.answer-btn').forEach(b=>b.disabled=true);
-  if(isCorrect){btn.classList.add('correct');correctCount++;showFeedback(true,correctText);}
-  else{btn.classList.add('wrong');wrongCount++;document.querySelectorAll('.answer-btn').forEach(b=>{if(b.textContent===correctText)b.classList.add('correct');});retryQueue.push({...cq,isRetry:true});showFeedback(false,correctText);}
-  document.getElementById('btnContinue').className='btn-continue show';
+
+function selectAnswer(btn, isCorrect, ansText, cq) {
+  if (answered) return;
+  answered = true;
+  document.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+  const correctText = cq.answers.find(a => a.isCorrect).text;
+  if (isCorrect) {
+    btn.classList.add('correct'); correctCount++;
+    showFeedback(true, correctText);
+  } else {
+    btn.classList.add('wrong'); wrongCount++;
+    document.querySelectorAll('.answer-btn').forEach(b => { if(b.querySelector('span').textContent===correctText) b.classList.add('correct'); });
+    retryQueue.push({q:cq.q, answers:shuffle(cq.answers), isRetry:true});
+    showFeedback(false, correctText);
+  }
+  document.getElementById('btnContinue').className = 'btn-continue show';
 }
-function showFeedback(ok,ct){
-  const fb=document.getElementById('feedbackPanel');
-  document.getElementById('fbIcon').textContent=ok?'🎉':'❌';
-  document.getElementById('fbTitle').textContent=ok?'¡Correcto!':'¡Incorrecto! Esta pregunta volverá más tarde.';
-  document.getElementById('fbAns').innerHTML=ok?'':`Respuesta correcta: <strong>${ct}</strong>`;
-  fb.className='feedback-panel show '+(ok?'correct':'wrong');
+
+function showFeedback(ok, correctText) {
+  const fb = document.getElementById('feedbackPanel');
+  document.getElementById('fbIcon').textContent = ok ? '🎉' : '❌';
+  document.getElementById('fbTitle').textContent = ok ? '¡Correcto!' : '¡Incorrecto! Esta pregunta volverá más tarde.';
+  document.getElementById('fbAns').innerHTML = ok ? '' : `Respuesta correcta: <strong>${correctText}</strong>`;
+  fb.className = 'feedback-panel show ' + (ok ? 'correct' : 'wrong');
 }
-function nextQuestion(){currentIdx++;showQuestion();}
-function endGame(){
-  const pct=Math.round((correctCount/totalStarted)*100);
-  let trophy='🏆',title='¡Excelente!';
-  if(pct<50){trophy='📚';title='¡Sigue estudiando!';}
-  else if(pct<70){trophy='💪';title='¡Bien hecho!';}
-  else if(pct<90){trophy='⭐';title='¡Muy bien!';}
-  document.getElementById('finalTrophy').textContent=trophy;
-  document.getElementById('finalTitle').textContent=title;
-  document.getElementById('finalSub').textContent=`Has completado ${totalStarted} preguntas`;
-  document.getElementById('finalScore').textContent=pct+'%';
-  document.getElementById('fCorrect').textContent=correctCount;
-  document.getElementById('fWrong').textContent=wrongCount;
+
+function nextQuestion() { currentIdx++; showQuestion(); }
+
+function endGame() {
+  const pct = Math.round((correctCount/totalStarted)*100);
+  let trophy='🏆', title='¡Excelente!';
+  if (pct < 50) { trophy='📚'; title='¡Sigue estudiando!'; }
+  else if (pct < 70) { trophy='💪'; title='¡Bien hecho!'; }
+  else if (pct < 90) { trophy='⭐'; title='¡Muy bien!'; }
+  document.getElementById('finalTrophy').textContent = trophy;
+  document.getElementById('finalTitle').textContent = title;
+  document.getElementById('finalSub').textContent = `Has completado ${totalStarted} preguntas`;
+  document.getElementById('finalScore').textContent = pct+'%';
+  document.getElementById('fCorrect').textContent = correctCount;
+  document.getElementById('fWrong').textContent = wrongCount;
   showScreen('screenFinal');
 }
-function restartGame(){startGame(currentKahootId);}
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+function restartGame() { startGame(currentKahootId); }
+
+// ====================================================
+// HELPERS
+// ====================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
 let toastTimer;
-function showToast(msg,isErr=false){const t=document.getElementById('toast');t.textContent=msg;t.style.background=isErr?'rgba(231,76,60,0.9)':'var(--card2)';t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);}
-document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
-loadData();renderHome();
+function showToast(msg, isErr=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = isErr ? 'rgba(231,76,60,0.9)' : 'var(--card2)';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); });
+});
+
+// ====================================================
+// INIT
+// ====================================================
+loadData();
+renderHome();
 </script>
 </body>
 </html>
